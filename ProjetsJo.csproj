@@ -6,4 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Shared\HomeDisplayInfo.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Shared\HomeDisplayInfo.razor.css" />
+  </ItemGroup>
+
 </Project>
