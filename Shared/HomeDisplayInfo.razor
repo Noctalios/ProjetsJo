@@ -1,0 +1,11 @@
+﻿<div class="home-display-info-container">
+    <img src="/css/Images/@ImgSrc" />
+    <div>@Description</div>
+</div>
+
+@code {
+    [Parameter]
+    public string? ImgSrc { get; set; }
+    [Parameter]
+    public string Description { get; set; } = String.Empty;
+}
