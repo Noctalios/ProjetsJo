@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Authorization;
 using ProjetsJo.Authentication;
+using ProjetsJo.DAL.Interfaces;
+using ProjetsJo.DAL.Repository;
+using ProjetsJo.BLL.Interfaces;
+using ProjetsJo.BLL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +16,11 @@ builder.Services.AddTransient<AuthenticationStateProvider, CustomAuthenticationS
 
 // Services realated to DAL
 
+builder.Services.AddScoped<IOfferData, OfferData>();
+
 // Services related to BLL
+
+builder.Services.AddScoped<IOfferService, OfferService>();
 
 var app = builder.Build();
 

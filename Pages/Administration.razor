@@ -1,28 +1,79 @@
-﻿@page "/Administration"
-@using ProjetsJo.Entites;
+﻿@using ProjetsJo.Entites;
+@using ProjetsJo.BLL.Interfaces;
 
-<PageTitle>Page Administrateur</PageTitle>
+@inject IOfferService offerService;
 
-<div>
+@page "/Administration"
+
+<h2>Page d'administration des offres de la billetterie</h2>
+<div class="offers">
+    <div class="offer-edit">
+        <div>
+            <label>Intitulé de l'offre: </label>
+            <input @onfocusout="(e)=>Save(e)" type="text" @bind="@newOffer.Name" />
+        </div>
+        <div>
+            <label>Nombre de tickets de l'offre: </label>
+            <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@newOffer.Quantity" />
+        </div>
+        <div>
+            <label>Prix: </label>
+            <input @onfocusout="(e)=>Save(e)" type="number" min="0.00" step="0.01" @bind="@newOffer.Price" />
+        </div>
+        <div>
+            <label>Ventes: @newOffer.Total</label>
+        </div>
+        <button @onclick="Add">Ajouter</button>
+    </div>
     @foreach (Offer offer in Offers)
     {
         <div class="offer-edit">
-            <input type="text" @bind="@offer.Name" />
-            <input type="number" min="1" @bind="@offer.Quantity" />
-            <input type="number" min="0.00" step="0.01" @bind="@offer.Price" />
+            <div>
+                <label>Intitulé de l'offre: </label>
+                <input @onfocusout="(e)=>Save(e)" type="text" @bind="@offer.Name" />
+            </div>
+            <div>
+                <label>Nombre de tickets de l'offre: </label>
+                <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@offer.Quantity" />
+            </div>
+            <div>
+                <label>Prix: </label >
+                <input @onfocusout="(e)=>Save(e)" type="number" min="0.00" step="0.01" @bind="@offer.Price" />
+            </div>
+            <div>
+                <label>Ventes: @offer.Total</label>
+            </div>
         </div>
     }
 </div>
 
 @code {
     private List<Offer> Offers = new List<Offer>();
+    private Offer newOffer = new Offer();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        for (int i = 0; i < 3; i++)
-        {
-            Offers.Add(new Offer(i, $"Offer number {i}", i, (decimal)(i+1)*10));
-        }
+        Offers = offerService.GetOffers();
+    }
+
+    private void Save(FocusEventArgs e)
+    {
+        Console.WriteLine(e.ToString());
+    }
+
+    private void Add()
+    {
+        Offers = offerService.newOffer(Offers, newOffer);
+        resetNewOffer();
+    }
+
+    private void resetNewOffer()
+    {
+        newOffer.Id = 0;
+        newOffer.Name = "";
+        newOffer.Quantity = 0;
+        newOffer.Price = 0m;
+        newOffer.Total = 0;
     }
 }

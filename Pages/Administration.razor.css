@@ -1,0 +1,28 @@
+﻿.offers{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0.5rem;
+}
+
+.offer-edit{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 3rem;
+    align-items: center;
+    width: fit-content;
+    padding: 0.5rem; 
+    background-color: #FFFFFF;
+    border: 0.0625rem solid #FFD800;
+    border-radius: 0.5rem;
+}
+
+.offer-edit input{
+    border-radius: 0.5rem;
+    outline: none;
+}
+
+.offer-edit > button {
+    border-radius: 0.5rem;
+    height: 1.75rem;
+}
