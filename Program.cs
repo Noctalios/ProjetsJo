@@ -23,6 +23,7 @@ builder.Services.AddScoped<IOfferData, OfferData>();
 // Services related to BLL
 
 builder.Services.AddScoped<IOfferService, OfferService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
