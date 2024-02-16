@@ -1,0 +1,196 @@
+﻿@page "/connexion"
+
+@using System
+@using System.Globalization
+@using ProjetsJo.Entites
+@using ProjetsJo.BLL.Interfaces
+@using ProjetsJo.Authentication
+
+@*@inject IUserService userService*@
+@inject ISnackbar Snackbar
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+
+<style>
+    .mud-dialog-content, .mud-dialog-title {
+        background-color: #E9DDBE;
+    }
+
+    .mud-dialog-title {
+        text-align: center;
+    }
+
+</style>
+
+<PageTitle>Connexion</PageTitle>
+<MudDialog>
+    <DialogContent>
+        <div class="logins-container">
+            <div class="login-inputs">
+                <label>Email :</label>
+                <input type="email" @bind="@email" />
+            </div>
+            <div class="login-inputs">
+                <label>
+                    Mot de passe :
+                    <button class="oi oi-eye" @onclick="SwitchViewPassword"></button>
+                </label>
+                @if (viewPassword)
+                {
+                    <input type="text" @bind="@password" />
+                }
+                else
+                {
+                    <input type="password" @bind="@password" />
+                }
+            </div>
+            @if (!editingUser)
+            {
+                <div class="edit-inputs">
+                    <div class="first-inputs">
+                        <label>
+                            Nom :
+                            <input type="text" @bind="@name">
+                        </label>
+                    </div>
+                </div>
+            }
+            @if (editingUser)
+            {
+                <button class="editing-button" @onclick="SwitchEditingUser">Créer un compte ?</button>
+            }
+            else
+            {
+                <button class="editing-button" @onclick="SwitchEditingUser">Se connecter ?</button>
+            }
+        </div>
+        <div class="actions-buttons">
+            @if (editingUser)
+            {
+                <button @onclick="()=>OnLogin(email, password)">Se Connecter</button>
+            }
+            else
+            {
+                <button @onclick="()=>OnCreate(name, email, password)">Créer</button>
+            }
+            <button @onclick="ClosePopUp">Annuler</button>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private string email = "";
+    private string password = "";
+    private string name = "";
+    public User currentUser = new User();
+
+    private bool editingUser = true;
+    private bool viewPassword = false;
+
+    protected override void OnInitialized()
+    {
+    }
+
+    private void SwitchViewPassword()
+    {
+        viewPassword = !viewPassword;
+    }
+
+    private void SwitchEditingUser()
+    {
+        editingUser = !editingUser;
+    }
+
+    #region Connect
+
+    private async Task OnLogin(string email, string password)
+    {
+        string warningMessage = "Connexion impossible:<br>";
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            warningMessage += $"- Veuillez saisir un Email<br>";
+        }
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            warningMessage += $"- Veuillez saisir un Mot de Passe<br>";
+        }
+
+        if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
+        {
+            //currentUser = userService.GetUser(email.ToLower(), password);
+            if (currentUser == null)
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+                Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+                Snackbar.Add($"Email ou Mot de passe invalide", Severity.Error);
+            }
+            else
+            {
+                var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+                await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+                    {
+                        UserName = currentUser.LastName+ ,
+                        Email = currentUser.Email,
+                        Role = currentUser.Role.Label,
+                        Hash = password
+                    });
+                navManager.NavigateTo("/", true);
+
+                MudDialog.Close(DialogResult.Ok(currentUser));
+            }
+        }
+        else
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+            Snackbar.Add($"{warningMessage}", Severity.Error);
+        }
+    }
+
+    private void ClosePopUp()
+    {
+        MudDialog.Cancel();
+    }
+
+
+    #endregion
+
+    #region Edit
+
+    private void OnCreate(string name, string email, string password)
+    {
+        string warningMessage = "Création impossible:<br>";
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            warningMessage += $"- Veuillez saisir un Nom<br>";
+        }
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            warningMessage += $"- Veuillez saisir un Email<br>";
+        }
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            warningMessage += $"- Veuillez saisir un Mot de Passe<br>";
+        }
+
+        if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
+        {
+            //userService.CreateUser(name, email.ToLower(), password);
+
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+            Snackbar.Add($"Vous avez bien été enregistré", Severity.Success);
+        }
+        else
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+            Snackbar.Add($"{warningMessage}", Severity.Error);
+        }
+    }
+
+    #endregion
+}
