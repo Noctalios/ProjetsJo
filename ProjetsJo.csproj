@@ -14,4 +14,8 @@
     <Content Include="Shared\HomeDisplayInfo.razor.css" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" Version="6.15.0" />
+  </ItemGroup>
+
 </Project>

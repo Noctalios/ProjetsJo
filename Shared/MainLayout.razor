@@ -1,4 +1,13 @@
+﻿@using ProjetsJo.Entites;
+@using ProjetsJo.Authentication;
+@using ProjetsJo.Pages;
 ﻿@inherits LayoutComponentBase
+@inject AuthenticationStateProvider authStateProvider
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <PageTitle>ProjetsJo</PageTitle>
 
@@ -7,6 +16,7 @@
         <NavMenu />
     </div>
     <main>
+        <h1>Header of the application</h1>
         <article class="content">
             @Body
         </article>

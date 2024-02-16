@@ -6,12 +6,14 @@ using ProjetsJo.DAL.Interfaces;
 using ProjetsJo.DAL.Repository;
 using ProjetsJo.BLL.Interfaces;
 using ProjetsJo.BLL.Services;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddMudServices();
 builder.Services.AddTransient<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 // Services realated to DAL
