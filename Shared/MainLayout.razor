@@ -1,7 +1,7 @@
 ﻿@using ProjetsJo.Entites;
 @using ProjetsJo.Authentication;
 @using ProjetsJo.Pages;
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 @inject AuthenticationStateProvider authStateProvider
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
@@ -22,3 +22,36 @@
         </article>
     </main>
 </div>
+
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+    
+    private async Task Connexion()
+    {
+        var options = new DialogOptions
+            {
+                CloseButton = true,
+                CloseOnEscapeKey = true,
+                FullWidth = true,
+                Position = DialogPosition.Center
+            };
+
+        var dialog = await DialogService.ShowAsync<Connexion>("Connexion", options);
+        var result = await dialog.Result;
+
+        if (result.Data != null)
+        {
+            User currentUser = (User)result.Data;
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+            Snackbar.Add($"Bonjour", Severity.Success);
+        }
+    }
+
+    private async Task LogOut()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(null);
+    }
+}
