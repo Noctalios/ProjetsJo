@@ -6,7 +6,7 @@
 @using ProjetsJo.BLL.Interfaces
 @using ProjetsJo.Authentication
 
-@*@inject IUserService userService*@
+@inject IUserService userService
 @inject ISnackbar Snackbar
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
@@ -120,7 +120,7 @@
 
         if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
         {
-            //currentUser = userService.GetUser(email.ToLower(), password);
+            currentUser = userService.GetUser(email.ToLower(), password);
             if (currentUser == null)
             {
                 Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
@@ -132,7 +132,7 @@
                 var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
                 await customAuthStateProvider.UpdateAuthenticationState(new UserSession
                     {
-                        UserName = currentUser.LastName+ ,
+                        UserName = currentUser.UserName,
                         Email = currentUser.Email,
                         Role = currentUser.Role.Label,
                         Hash = password
