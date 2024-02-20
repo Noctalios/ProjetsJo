@@ -50,7 +50,18 @@ namespace ProjetsJo.DAL.Repository
         
         public User GetUser(string email, string password)
         {
-            throw new NotImplementedException();
+            string sql = "";
+            User user = new User(1, "Denis", "Lapa", "denis.lapa.pro@gmail.com", new Guid(), new Role(0, "Admin"));
+            //using (SqlConnection connection = new SqlConnection(GetConnexionString()))
+            //{
+            //    SqlCommand command = new SqlCommand(sql, connection);
+
+
+            //    command.Parameters.AddWithValue("@Email", email);
+            //    command.Parameters.AddWithValue("@PassWord", HashPassword(password, email));
+
+            //}
+            return user;
         }
         
         #endregion
