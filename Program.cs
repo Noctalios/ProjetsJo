@@ -19,6 +19,7 @@ builder.Services.AddTransient<AuthenticationStateProvider, CustomAuthenticationS
 // Services realated to DAL
 
 builder.Services.AddScoped<IOfferData, OfferData>();
+builder.Services.AddScoped<IUserData, UserData>();
 
 // Services related to BLL
 
