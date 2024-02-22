@@ -3,6 +3,7 @@ using ProjetsJo.Entites;
 using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using ProjetsJo.Entities;
 
 namespace ProjetsJo.DAL.Repository
 {
@@ -37,21 +38,20 @@ namespace ProjetsJo.DAL.Repository
             {
                 SqlCommand command = new SqlCommand(sql, connection);
 
-
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@PassWord", HashPassword(password, email));
-                
+
             }
         }
-        
+
         #endregion
 
         #region Read
-        
+
         public User GetUser(string email, string password)
         {
             string sql = "";
-            User user = new User(1, "Denis", "Lapa", "denis.lapa.pro@gmail.com", new Guid(), new Role(0, "Admin"));
+            User user = new User( "Denis Lapa", "denis.lapa.pro@gmail.com", "AABCDEEEMSS225", new Guid(),new Role(0, "Admin"));
             //using (SqlConnection connection = new SqlConnection(GetConnexionString()))
             //{
             //    SqlCommand command = new SqlCommand(sql, connection);
@@ -63,7 +63,7 @@ namespace ProjetsJo.DAL.Repository
             //}
             return user;
         }
-        
+
         #endregion
     }
 }

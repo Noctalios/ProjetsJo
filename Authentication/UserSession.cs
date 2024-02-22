@@ -10,6 +10,6 @@
         
         public string Hash { get; set; } = string.Empty;
 
-        public Guid AccountKey { get; set; };
+        public Guid AccountKey { get; set; }
     }
 }

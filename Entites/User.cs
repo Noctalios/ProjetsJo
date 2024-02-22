@@ -12,7 +12,7 @@ namespace ProjetsJo.Entites
         public List<string>? Tickets { get; set; }
 
         public User() { }
-        public User(string userName, string lastName, string email, string password, Guid accountKey, Role role)
+        public User(string userName, string email, string password, Guid accountKey, Role role)
         {
             UserName = userName;
             Email = email;
@@ -20,7 +20,7 @@ namespace ProjetsJo.Entites
             AccountKey = accountKey;
             Role = role;
         }
-        public User( string userName, string lastName, string email, string password, Guid accountKey, Role role, List<string>? tickets)
+        public User( string userName, string email, string password, Guid accountKey, Role role, List<string>? tickets)
         {
             UserName = userName;
             Email = email;
