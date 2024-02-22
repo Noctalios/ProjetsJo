@@ -12,11 +12,25 @@
 <PageTitle>ProjetsJo</PageTitle>
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-    <main>
+    <header class="header">
+        <button class="oi oi-menu" @onclick="ToggleNavMenu"></button>
         <h1>Header of the application</h1>
+        <AuthorizeView>
+            <Authorized>
+                <div class="connexion">
+                    <span>Bonjour @context.User.Identity.Name</span>
+                    <span @onclick="LogOut">Déconnexion</span>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <button class="connexion" @onclick="Connexion">Connexion</button>
+            </NotAuthorized>
+        </AuthorizeView>
+    </header>
+    <main>
+        <div class="sidebar @displayMenu">
+            <NavMenu OnClickCallback="ToggleNavMenu" />
+        </div>
         <article class="content">
             @Body
         </article>
@@ -26,6 +40,14 @@
 @code{
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+
+    private bool collapseNavMenu = true; 
+    private string? displayMenu => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
     
     private async Task Connexion()
     {
