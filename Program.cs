@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using ProjetsJo.Authentication;
 using ProjetsJo.DAL.Interfaces;
 using ProjetsJo.DAL.Repository;
@@ -14,6 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
+
+// Authentification 
+builder.Services.AddAuthenticationCore();
+builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddTransient<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 
 // Services realated to DAL

@@ -1,34 +1,29 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ProjetsJo</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+﻿<div @onclick="CollapseMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Acceuil
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Administration">
-                <span class="oi oi-plus" aria-hidden="true"></span> Administration
-            </NavLink>
-        </div>
+        <AuthorizeView Roles="Administrateur">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Administration">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Administration
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
     </nav>
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    [Parameter]
+    public EventCallback<bool> OnClickCallback { get; set; }
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    protected async Task CollapseMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        await OnClickCallback.InvokeAsync();
     }
 }
+
