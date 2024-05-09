@@ -4,15 +4,15 @@
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public int Quantity { get; set; }
+        public int TicketNumber { get; set; }
         public decimal Price { get; set; }
         
         public Offer() { }
-        public Offer(int id, string name, int quantity, decimal price, int total) : base(total) 
+        public Offer(int id, string name, int ticketNumber, decimal price, int total) : base(total) 
         {
             Id = id;
             Name = name;
-            Quantity = quantity;
+            TicketNumber = ticketNumber;
             Price = price;
         }
     }

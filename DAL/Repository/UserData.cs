@@ -56,7 +56,6 @@ namespace ProjetsJo.DAL.Repository
             //{
             //    SqlCommand command = new SqlCommand(sql, connection);
 
-
             //    command.Parameters.AddWithValue("@Email", email);
             //    command.Parameters.AddWithValue("@PassWord", HashPassword(password, email));
 

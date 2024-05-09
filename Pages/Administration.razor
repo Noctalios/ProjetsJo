@@ -15,7 +15,7 @@
         </div>
         <div>
             <label>Nombre de tickets de l'offre: </label>
-            <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@newOffer.Quantity" />
+            <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@newOffer.TicketNumber" />
         </div>
         <div>
             <label>Prix: </label>
@@ -35,7 +35,7 @@
             </div>
             <div>
                 <label>Nombre de tickets de l'offre: </label>
-                <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@offer.Quantity" />
+                <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@offer.TicketNumber" />
             </div>
             <div>
                 <label>Prix: </label >
@@ -73,7 +73,7 @@
     {
         newOffer.Id = 0;
         newOffer.Name = "";
-        newOffer.Quantity = 0;
+        newOffer.TicketNumber = 0;
         newOffer.Price = 0m;
         newOffer.Total = 0;
     }

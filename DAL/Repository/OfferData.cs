@@ -29,7 +29,7 @@ namespace ProjetsJo.DAL.Repository
 
         public List<Offer> newOffer(List<Offer> offers, Offer newOffer)
         {
-            Offer no = new Offer(offers.Count(), newOffer.Name, newOffer.Quantity, newOffer.Price, newOffer.Total);
+            Offer no = new Offer(offers.Count(), newOffer.Name, newOffer.TicketNumber, newOffer.Price, newOffer.Total);
             offers.Add(no);
             return offers;
         }
