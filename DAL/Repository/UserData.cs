@@ -48,10 +48,10 @@ namespace ProjetsJo.DAL.Repository
 
         #region Read
 
-        public User GetUser(string email, string password)
+        public User GetUser(string firstName, string lastName, string password)
         {
             string sql = "";
-            User user = new User( "Denis Lapa", "denis.lapa.pro@gmail.com", "AABCDEEEMSS225", new Guid(),new Role(0, "Administrateur"));
+            User user = new User( "Denis Lapa", "denis.lapa.pro@gmail.com", new Guid(),new Role(0, "Administrateur"));
             //using (SqlConnection connection = new SqlConnection(GetConnexionString()))
             //{
             //    SqlCommand command = new SqlCommand(sql, connection);
