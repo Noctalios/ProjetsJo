@@ -8,7 +8,7 @@ namespace ProjetsJo.Entites
         public string UserName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public Role Role { get; set; }
-        public List<string>? Tickets { get; set; }
+        public List<Ticket>? Tickets { get; set; }
 
         public User() { }
         public User(string userName, string email, Guid accountKey, Role role)
@@ -18,7 +18,7 @@ namespace ProjetsJo.Entites
             AccountKey = accountKey;
             Role = role;
         }
-        public User( string userName, string email, Guid accountKey, Role role, List<string>? tickets)
+        public User( string userName, string email, Guid accountKey, Role role, List<Ticket>? tickets)
         {
             UserName = userName;
             Email = email;
