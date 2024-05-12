@@ -11,6 +11,7 @@ AS
 	BEGIN TRAN GetUser
 
 		SELECT
+		  U.[Id],
 		  U.[Firstname],
 		  U.[LastName],
 		  U.[Mail],
