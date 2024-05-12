@@ -67,5 +67,7 @@
     <Build Include="dbo\Stored Procedures\CreateUser.sql" />
     <Build Include="dbo\Stored Procedures\GetUser.sql" />
     <Build Include="dbo\Stored Procedures\CreateOffer.sql" />
+    <Build Include="dbo\Stored Procedures\DisableOffer.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateOffer.sql" />
   </ItemGroup>
 </Project>
