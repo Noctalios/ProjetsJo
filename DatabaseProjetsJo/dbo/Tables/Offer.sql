@@ -5,8 +5,6 @@
     [Price]        DECIMAL (18)   NOT NULL,
     [State]        BIT            NOT NULL  DEFAULT ((1)),
     PRIMARY KEY CLUSTERED ([Id] ASC),
+    INDEX [IX_Offer_Id] ([Id] ASC)
 );
 
-GO 
-CREATE CLUSTERED INDEX [IX_Offer_Id]
-    ON [dbo].[Offer] ([Id] ASC);
