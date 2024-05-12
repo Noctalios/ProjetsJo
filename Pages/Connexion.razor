@@ -27,8 +27,10 @@
     <DialogContent>
         <div class="logins-container">
             <div class="login-inputs">
-                <label>Email :</label>
-                <input type="email" @bind="@email" />
+                <label>Nom: </label>
+                <input type="text" @bind="@firstName" />
+                <label>Prénom :</label>
+                <input type="text" @bind="@lastName" />
             </div>
             <div class="login-inputs">
                 <label>
@@ -50,7 +52,13 @@
                     <div class="first-inputs">
                         <label>
                             Nom :
-                            <input type="text" @bind="@name">
+                            <input type="text" @bind="@lastName">
+                        </label>
+                    </div>
+                    <div class="first-inputs">
+                        <label>
+                            Prénom :
+                            <input type="text" @bind="@lastName">
                         </label>
                     </div>
                 </div>
@@ -71,7 +79,7 @@
             }
             else
             {
-                <button @onclick="()=>OnCreate(name, email, password)">Créer</button>
+                <button @onclick="()=>OnCreate(firstName, lastName, email, password)">Créer</button>
             }
             <button @onclick="ClosePopUp">Annuler</button>
         </div>
@@ -84,7 +92,8 @@
 
     private string email = "";
     private string password = "";
-    private string name = "";
+    private string lastName = "";
+    private string firstName = "";
     public User currentUser = new User();
 
     private bool editingUser = true;
@@ -106,21 +115,25 @@
 
     #region Connect
 
-    private async Task OnLogin(string email, string password)
+    private async Task OnLogin(string firstName, string lastName, string password)
     {
         string warningMessage = "Connexion impossible:<br>";
-        if (string.IsNullOrWhiteSpace(email))
+        if (string.IsNullOrWhiteSpace(firstName))
         {
-            warningMessage += $"- Veuillez saisir un Email<br>";
+            warningMessage += $"- Veuillez saisir votre Prénom<br>";
+        }
+        if (string.IsNullOrWhiteSpace(lastName))
+        {
+            warningMessage += $"- Veuillez saisir votre Nom<br>";
         }
         if (string.IsNullOrWhiteSpace(password))
         {
-            warningMessage += $"- Veuillez saisir un Mot de Passe<br>";
+            warningMessage += $"- Veuillez saisir votre Mot de Passe<br>";
         }
 
-        if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
+        if (!string.IsNullOrWhiteSpace(lastName) && !string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(password))
         {
-            currentUser = userService.GetUser(email.ToLower(), password);
+            currentUser = userService.GetUser(firstName, lastName, password);
             if (currentUser == null)
             {
                 Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
@@ -160,12 +173,16 @@
 
     #region Edit
 
-    private void OnCreate(string name, string email, string password)
+    private void OnCreate(string firstName, string lastName, string email, string password)
     {
         string warningMessage = "Création impossible:<br>";
-        if (string.IsNullOrWhiteSpace(name))
+        if (string.IsNullOrWhiteSpace(lastName))
         {
             warningMessage += $"- Veuillez saisir un Nom<br>";
+        }
+        if (string.IsNullOrWhiteSpace(firstName))
+        {
+            warningMessage += $"- Veuillez saisir un Prénom<br>";
         }
         if (string.IsNullOrWhiteSpace(email))
         {
