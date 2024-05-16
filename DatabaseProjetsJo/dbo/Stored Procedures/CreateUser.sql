@@ -6,8 +6,8 @@ CREATE PROCEDURE [dbo].[CreateUser]
 	@firstName	NVARCHAR(100),
 	@lastName	NVARCHAR(100),
 	@email		NVARCHAR(MAX),
-	@password	NVARCHAR(100),
-	@accountKey NVARCHAR(MAX)
+	@accountKey NVARCHAR(MAX),
+	@password	NVARCHAR(100)
 AS
   BEGIN TRY
 	BEGIN TRAN CreateUser
