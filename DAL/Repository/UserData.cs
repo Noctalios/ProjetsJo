@@ -1,9 +1,9 @@
 ﻿using ProjetsJo.DAL.Interfaces;
 using ProjetsJo.Entites;
+using ProjetsJo.Entities;
 using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
-using ProjetsJo.Entities;
 using System.Data;
 
 namespace ProjetsJo.DAL.Repository
@@ -34,7 +34,7 @@ namespace ProjetsJo.DAL.Repository
 
         public void CreateUser(string firstName, string lastName, string email, Guid accountKey, string password)
         {
-            string sql = "";
+            string sql = "EXEC [CreateUser] @firstname, @lastName, @email, @accountKey, @password";
             using (SqlConnection connection = new SqlConnection(GetConnexionString()))
             {
                 SqlCommand command = new SqlCommand(sql, connection);
@@ -43,7 +43,7 @@ namespace ProjetsJo.DAL.Repository
                 command.Parameters.AddWithValue("@lastName", lastName);
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@accountKey", accountKey);
-                command.Parameters.AddWithValue("@PassWord", HashPassword(password, firstName, lastName));
+                command.Parameters.AddWithValue("@passpord", HashPassword(password, firstName, lastName));
 
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -83,7 +83,7 @@ namespace ProjetsJo.DAL.Repository
                                 (
                                     new Ticket
                                     (
-                                        reader.GetInt32 ("Id"), 
+                                        reader.GetInt32("Id"), 
                                         reader.GetString("QrCode"),
                                         reader.GetDateTime("Date")
                                     )
@@ -106,37 +106,6 @@ namespace ProjetsJo.DAL.Repository
                 Console.WriteLine(e.ToString());
                 return null;
             }
-            //                        User newUser = new User()
-            //                        {
-            //                            Id = reader.GetInt32("Id"),
-            //                            Name = reader.GetString("Name"),
-            //                            Email = reader.GetString("Email"),
-            //                            Password = reader.GetString("Password"),
-            //                            Guest = reader.IsDBNull(reader.GetOrdinal("Guest")) ? null : reader.GetInt32("Guest"),
-            //                            Role = new Role(reader.GetInt32("RoleId"), reader.GetString("RoleLabel")),
-            //                            Allergies = new List<Allergie>()
-            //                            {
-            //                                new Allergie()
-            //                                {
-            //                                    Id = reader.GetInt32("AllergieId"),
-            //                                    Name = reader.GetString("AllergieLabel"),
-            //                                }
-            //                            }
-            //                        };
-            //                        result.Add(reader.GetInt32("Id"), newUser);
-            //                    }
-            //                }
-            //            }
-            //        }
-            //        connection.Close();
-            //    }
-            //    return result.Values.FirstOrDefault();
-            //}
-            //catch (SqlException e)
-            //{
-            //    Console.WriteLine(e.ToString());
-            //    return null;
-            //}
         }
 
         #endregion

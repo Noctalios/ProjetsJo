@@ -6,6 +6,6 @@ namespace ProjetsJo.DAL.Interfaces
     {
         User GetUser(string firstName, string lastName, string password);
 
-        void CreateUser(string userName, string email, string password);
+        void CreateUser(string firstName, string lastName, string email, Guid accountKey, string password);
     }
 }
