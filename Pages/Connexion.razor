@@ -48,13 +48,9 @@
             </div>
             @if (!editingUser)
             {
-                <div class="edit-inputs">
-                    <div class="first-inputs">
-                        <label>
-                            Adresse mail :
-                            <input type="text" @bind="@email">
-                        </label>
-                    </div>
+                <div class="login-inputs">
+                    <label>Adresse mail :</label>
+                    <input type="text" @bind="@email">
                 </div>
             }
             @if (editingUser)
