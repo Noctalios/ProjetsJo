@@ -1,7 +1,6 @@
 ﻿using ProjetsJo.Entites;
 using ProjetsJo.DAL.Interfaces;
 using ProjetsJo.BLL.Interfaces;
-using ProjetsJo.DAL.Repository;
 
 namespace ProjetsJo.BLL.Services
 {
@@ -16,6 +15,19 @@ namespace ProjetsJo.BLL.Services
 
         public List<Offer> GetOffers() => _offerData.GetOffers();
 
-        public List<Offer> newOffer(List<Offer> offers, Offer newOffer) => _offerData.newOffer(offers, newOffer);
+        public void AddOffer(Offer newOffer) 
+        {
+            _offerData.AddOffer(newOffer);
+        }
+
+        public void UpdateOffer(Offer offerToUpdate)
+        {
+            _offerData.UpdateOffer(offerToUpdate);
+        }
+
+        public void DisableOffer(int offerId)
+        {
+            _offerData.DisableOffer(offerId);
+        }
     }
 }

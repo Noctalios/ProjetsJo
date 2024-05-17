@@ -5,6 +5,8 @@ namespace ProjetsJo.BLL.Interfaces
     public interface IOfferService
     {
         List<Offer> GetOffers();
-        List<Offer> newOffer(List<Offer> offers, Offer newOffer);
+        void AddOffer(Offer newOffer);
+        void UpdateOffer(Offer offerToUpdate);
+        void DisableOffer(int offerId);
     }
 }
