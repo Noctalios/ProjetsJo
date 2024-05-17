@@ -4,15 +4,15 @@
 
 CREATE PROCEDURE [dbo].[UpdateOffer]
 	@OfferId		INT,
-	@label			NVARCHAR(MAX),
-	@ticketNumber	INT
+	@Label			NVARCHAR(MAX),
+	@TicketNumber	INT
 AS
   BEGIN TRY
 	BEGIN TRAN UpdateOffer
 
 		UPDATE Offer
 		SET 
-		  [Label] = @label,
+		  [Label] = @Label,
 		  [TicketNumber] = @TicketNumber
 		WHERE Id = @OfferId
 	COMMIT TRAN UpdateOffer

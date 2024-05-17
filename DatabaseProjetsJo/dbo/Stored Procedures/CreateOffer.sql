@@ -14,7 +14,7 @@ AS
 		(
 		  SELECT 
 			O.[Id] 
-		  FROM [Ofer] O
+		  FROM [Offer] O
 		  WHERE O.[Label] = @Label
 		)
 		  INSERT INTO [Offer] ([Label], [Price], [TicketNumber])
