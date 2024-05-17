@@ -10,9 +10,5 @@
             Total = total;
         }
 
-        protected decimal AmountOffer (int total, decimal price)
-        {
-            return total * price;
-        }
     }
 }

@@ -6,7 +6,7 @@
         public string Name { get; set; } = string.Empty;
         public int TicketNumber { get; set; }
         public decimal Price { get; set; }
-        
+
         public Offer() { }
         public Offer(int id, string name, int ticketNumber, decimal price, int total) : base(total) 
         {
@@ -14,6 +14,11 @@
             Name = name;
             TicketNumber = ticketNumber;
             Price = price;
+        }
+
+        protected decimal AmountOffer()
+        {
+            return Total * Price;
         }
     }
 }
