@@ -59,16 +59,19 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Stored Procedures\User" />
+    <Folder Include="dbo\Stored Procedures\Offer" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Offer.sql" />
     <Build Include="dbo\Tables\Ticket.sql" />
     <Build Include="dbo\Tables\User.sql" />
-    <Build Include="dbo\Stored Procedures\CreateUser.sql" />
-    <Build Include="dbo\Stored Procedures\GetUser.sql" />
-    <Build Include="dbo\Stored Procedures\CreateOffer.sql" />
-    <Build Include="dbo\Stored Procedures\DisableOffer.sql" />
-    <Build Include="dbo\Stored Procedures\UpdateOffer.sql" />
-    <Build Include="dbo\Stored Procedures\GetOffers.sql" />
+    <Build Include="dbo\Stored Procedures\Offer\CreateOffer.sql" />
+    <Build Include="dbo\Stored Procedures\Offer\DisableOffer.sql" />
+    <Build Include="dbo\Stored Procedures\Offer\UpdateOffer.sql" />
+    <Build Include="dbo\Stored Procedures\Offer\GetOffers.sql" />
+    <Build Include="dbo\Stored Procedures\User\CreateUser.sql" />
+    <Build Include="dbo\Stored Procedures\User\GetUser.sql" />
+    <Build Include="dbo\Stored Procedures\User\GetUserGuids.sql" />
   </ItemGroup>
 </Project>
