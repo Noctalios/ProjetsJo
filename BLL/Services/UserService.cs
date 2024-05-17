@@ -13,9 +13,9 @@ namespace ProjetsJo.BLL.Services
             _userData = userData;
         }
 
-        public void CreateUser(string userName, string email, string password)
+        public void CreateUser(string firstName, string lastName, string email, Guid accountKey, string password)
         {
-            _userData.CreateUser(userName, email, password);
+            _userData.CreateUser(firstName, lastName, email, accountKey, password);
         }
 
         public User GetUser(string firstName, string lastName, string password)
