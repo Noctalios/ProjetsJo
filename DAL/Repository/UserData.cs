@@ -57,7 +57,6 @@ namespace ProjetsJo.DAL.Repository
 
         public User GetUser(string firstName, string lastName, string password)
         {
-            User useraaa = new User( "Denis Lapa", "denis.lapa.pro@gmail.com", new Guid(),new Role(0, "Administrateur"));
             try
             {
                 string sql = "EXEC [dbo].[GetUser] @firstName, @lastName, @password;";

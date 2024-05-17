@@ -13,8 +13,10 @@ namespace ProjetsJo.BLL.Services
             _userData = userData;
         }
 
-        public void CreateUser(string firstName, string lastName, string email, Guid accountKey, string password)
+        public void CreateUser(string firstName, string lastName, string email, string password)
         {
+            Guid accountKey = Guid.Parse($"{firstName}+{DateTime.Now.ToString()}{lastName}");
+            Console.WriteLine(accountKey);
             _userData.CreateUser(firstName, lastName, email, accountKey, password);
         }
 

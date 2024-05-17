@@ -51,14 +51,8 @@
                 <div class="edit-inputs">
                     <div class="first-inputs">
                         <label>
-                            Nom :
-                            <input type="text" @bind="@lastName">
-                        </label>
-                    </div>
-                    <div class="first-inputs">
-                        <label>
-                            Prénom :
-                            <input type="text" @bind="@lastName">
+                            Adresse mail :
+                            <input type="text" @bind="@email">
                         </label>
                     </div>
                 </div>
@@ -75,7 +69,7 @@
         <div class="actions-buttons">
             @if (editingUser)
             {
-                <button @onclick="()=>OnLogin(email, password)">Se Connecter</button>
+                <button @onclick="()=>OnLogin(firstName, lastName, password)">Se Connecter</button>
             }
             else
             {
@@ -195,7 +189,7 @@
 
         if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
         {
-            //userService.CreateUser(name, email.ToLower(), password);
+            //userService.CreateUser(firstName, lastName, email, password);
 
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
             Snackbar.Configuration.SnackbarVariant = Variant.Filled;

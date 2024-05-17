@@ -65,7 +65,8 @@
 
     private void Add()
     {
-        Offers = offerService.newOffer(Offers, newOffer);
+        offerService.AddOffer(newOffer);
+        Offers = offerService.GetOffers();
         resetNewOffer();
     }
 
