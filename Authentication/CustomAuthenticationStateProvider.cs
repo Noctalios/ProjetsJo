@@ -26,10 +26,10 @@ namespace ProjetsJo.Authentication
                 }
                 var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, userSession.UserName),
+                    new Claim(ClaimTypes.Name, userSession.FirstName),
+                    new Claim(ClaimTypes.Surname, userSession.LastName),
                     new Claim(ClaimTypes.Role, userSession.Role),
                     new Claim(ClaimTypes.Email, userSession.Email),
-                    new Claim(ClaimTypes.Hash, userSession.Hash),
                     new Claim(ClaimTypes.Sid, userSession.AccountKey.ToString())
                 }, "CustomAuth"));
                 NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
@@ -51,10 +51,10 @@ namespace ProjetsJo.Authentication
                 await _sessionStorage.SetAsync("UserSession", userSession);
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, userSession.UserName),
+                    new Claim(ClaimTypes.Name, userSession.FirstName),
+                    new Claim(ClaimTypes.Surname, userSession.LastName),
                     new Claim(ClaimTypes.Role, userSession.Role),
                     new Claim(ClaimTypes.Email, userSession.Email),
-                    new Claim(ClaimTypes.Hash, userSession.Hash),
                     new Claim(ClaimTypes.Sid, userSession.AccountKey.ToString())
                 }));
             }

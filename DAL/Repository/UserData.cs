@@ -43,7 +43,7 @@ namespace ProjetsJo.DAL.Repository
                 command.Parameters.AddWithValue("@lastName", lastName);
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@accountKey", accountKey);
-                command.Parameters.AddWithValue("@passpord", HashPassword(password, firstName, lastName));
+                command.Parameters.AddWithValue("@password", HashPassword(password, firstName, lastName));
 
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -55,12 +55,12 @@ namespace ProjetsJo.DAL.Repository
 
         #region Read
 
-        public User GetUser(string firstName, string lastName, string password)
+        public User? GetUser(string firstName, string lastName, string password)
         {
             try
             {
                 string sql = "EXEC [dbo].[GetUser] @firstName, @lastName, @password;";
-                Dictionary<int, User> result= new();                 
+                Dictionary<Guid, User> result= new();                 
 
                 using (SqlConnection connection = new SqlConnection(GetConnexionString()))
                 {
@@ -68,7 +68,7 @@ namespace ProjetsJo.DAL.Repository
 
                     command.Parameters.AddWithValue("@firstName", firstName);
                     command.Parameters.AddWithValue("@lastName", lastName);
-                    command.Parameters.AddWithValue("@PassWord", HashPassword(password, firstName, lastName));
+                    command.Parameters.AddWithValue("@password", HashPassword(password, firstName, lastName));
                 
                     connection.Open();
 
@@ -76,9 +76,9 @@ namespace ProjetsJo.DAL.Repository
                     {
                         while(reader.Read())
                         {
-                            if(result.TryGetValue(reader.GetInt32("Id"), out User currentUser))
+                            if (result.TryGetValue(reader.GetGuid("AccountKey"), out User? currentUser))
                             {
-                                currentUser.Tickets.Add
+                                currentUser.Tickets?.Add
                                 (
                                     new Ticket
                                     (
@@ -90,23 +90,61 @@ namespace ProjetsJo.DAL.Repository
                             }
                             else
                             {
-                                User newUser = new User();
+                                User newUser = new User
+                                (
+                                    reader.GetString("FirstName"),
+                                    reader.GetString("LastName"),
+                                    reader.GetString("Mail"),
+                                    Guid.Parse(reader.GetString("AccountKey")),
+                                    reader.GetBoolean("IsAdmin")
+                                );
+                                if(reader.IsDBNull(reader.GetInt32("Id")))
+                                {
+                                    newUser.Tickets = new();
+                                    Ticket ticket = new Ticket
+                                    (
+                                        reader.GetInt32("Id"),
+                                        reader.GetString("QrCode"),
+                                        reader.GetDateTime("Date")
+                                    );
+                                }
 
-                                result.Add(reader.GetInt32("Id"), newUser);
+                                result.Add(reader.GetGuid("AccountKey"), newUser);
                             }
                         }
                     };
                     connection.Close();
-                    return result.Values.First();
+                    return result.Count > 0 ? result.Values.First() : null;
                 };
             }
-            catch (SqlException e)
+            catch(Exception ex)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
 
+        public List<Guid> GetUserGuids()
+        {
+            List<Guid> guids = new();
+
+            string sql = "EXEC [GetUserGuids]";
+            using (SqlConnection connection = new SqlConnection(GetConnexionString()))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        guids.Add(Guid.Parse(reader.GetString("AccountKey")));
+                    }
+                };
+                connection.Close();
+            };
+            return guids;
+        }
         #endregion
     }
 }

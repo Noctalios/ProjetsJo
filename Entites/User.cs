@@ -5,25 +5,28 @@ namespace ProjetsJo.Entites
     public class User
     {
         public Guid AccountKey { get; set; }
-        public string UserName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public Role Role { get; set; }
+        public bool IsAdmin { get; set; }
         public List<Ticket>? Tickets { get; set; }
 
         public User() { }
-        public User(string userName, string email, Guid accountKey, Role role)
+        public User(string firstName, string lastName, string email, Guid accountKey, bool isAdmin)
         {
-            UserName = userName;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
             AccountKey = accountKey;
-            Role = role;
+            IsAdmin = isAdmin;
         }
-        public User( string userName, string email, Guid accountKey, Role role, List<Ticket>? tickets)
+        public User(string firstName, string lastName, string email, Guid accountKey, bool isAdmin, List<Ticket>? tickets)
         {
-            UserName = userName;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
             AccountKey = accountKey;
-            Role = role;
+            IsAdmin= isAdmin;
             Tickets = tickets;
         }
     }

@@ -28,9 +28,9 @@
         <div class="logins-container">
             <div class="login-inputs">
                 <label>Nom: </label>
-                <input type="text" @bind="@firstName" />
-                <label>Prénom :</label>
                 <input type="text" @bind="@lastName" />
+                <label>Prénom :</label>
+                <input type="text" @bind="@firstName" />
             </div>
             <div class="login-inputs">
                 <label>
@@ -80,11 +80,11 @@
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
+    private string firstName = "";
+    private string lastName = "";
     private string email = "";
     private string password = "";
-    private string lastName = "";
-    private string firstName = "";
-    public User currentUser = new User();
+    public User? currentUser = new();
 
     private bool editingUser = true;
     private bool viewPassword = false;
@@ -135,10 +135,11 @@
                 var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
                 await customAuthStateProvider.UpdateAuthenticationState(new UserSession
                     {
-                        UserName = currentUser.UserName,
+                        FirstName = currentUser.FirstName,
+                        LastName = currentUser.LastName,
                         Email = currentUser.Email,
-                        Role = currentUser.Role.Label,
-                        Hash = password
+                        Role = currentUser.IsAdmin ? "Administrator" : "Utilisateur",
+                        AccountKey = currentUser.AccountKey,
                     });
                 navManager.NavigateTo("/", true);
 
@@ -185,7 +186,7 @@
 
         if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(password))
         {
-            //userService.CreateUser(firstName, lastName, email, password);
+            userService.CreateUser(firstName, lastName, email, password);
 
             Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
             Snackbar.Configuration.SnackbarVariant = Variant.Filled;
