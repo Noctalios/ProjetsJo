@@ -128,7 +128,7 @@
             {
                 Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
                 Snackbar.Configuration.SnackbarVariant = Variant.Filled;
-                Snackbar.Add($"Email ou Mot de passe invalide", Severity.Error);
+                Snackbar.Add($"Prénom, Nom ou Mot de passe invalide", Severity.Error);
             }
             else
             {
@@ -138,7 +138,7 @@
                         FirstName = currentUser.FirstName,
                         LastName = currentUser.LastName,
                         Email = currentUser.Email,
-                        Role = currentUser.IsAdmin ? "Administrator" : "Utilisateur",
+                        Role = currentUser.IsAdmin ? "Administrateur" : "Utilisateur",
                         AccountKey = currentUser.AccountKey,
                     });
                 navManager.NavigateTo("/", true);

@@ -11,7 +11,6 @@ AS
 	BEGIN TRAN GetUser
 
 		SELECT
-		  U.[Id],
 		  U.[Firstname],
 		  U.[LastName],
 		  U.[Mail],
@@ -20,10 +19,8 @@ AS
 		  T.[Id],
 		  T.[Date],
 		  T.[QrCode]
-		FROM 
-		  [User] U
-		INNER JOIN Ticket T 
-	      ON T.UserId = U.Id
+		FROM [User] U
+		LEFT JOIN Ticket T ON T.UserId = U.Id
 		WHERE U.[Firstname] = @firstName 
 		  AND U.[LastName] = @lastName 
 		  AND U.[Password] = @password

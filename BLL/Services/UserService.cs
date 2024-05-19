@@ -17,10 +17,7 @@ namespace ProjetsJo.BLL.Services
         #region Interface Implementation
         public void CreateUser(string firstName, string lastName, string email, string password)
         {
-            List<Guid> existingGuids = _userData.GetUserGuids();
-            Guid accountKey = new();
-            VerifyAccountKey(ref accountKey, existingGuids);
-            _userData.CreateUser(firstName, lastName, email, accountKey, password);
+            _userData.CreateUser(firstName, lastName, email, Guid.NewGuid(), password);
         }
 
         public User? GetUser(string firstName, string lastName, string password)
@@ -29,14 +26,5 @@ namespace ProjetsJo.BLL.Services
         }
         #endregion
 
-        #region Technical
-        private void VerifyAccountKey(ref Guid accountKey, List<Guid> existingGuids)
-        {
-            accountKey = Guid.NewGuid();
-            if (existingGuids.Contains(accountKey))
-                VerifyAccountKey(ref accountKey, existingGuids);
-            return;    
-        }
-        #endregion
     }
 }
