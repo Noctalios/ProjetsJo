@@ -1,6 +1,7 @@
 ﻿@using ProjetsJo.Entites;
 @using ProjetsJo.Authentication;
 @using ProjetsJo.Pages;
+@using System.Security.Claims;
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inherits LayoutComponentBase
@@ -20,7 +21,7 @@
             <h1>Billeterie des JO 2024</h1>
             <AuthorizeView>
                 <Authorized>
-                    <button @onclick="LogOut" class="connexion">Bonjour @context.User.Identity.Name Déconnexion</button>
+                    <button @onclick="LogOut" class="connexion">@GetDisplayName(context.User)</button>
             </Authorized>
                 <NotAuthorized>
                     <button class="connexion" @onclick="Connexion">Connexion</button>
@@ -41,6 +42,7 @@
 @code{
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+    private User connectedUser { get; set; } = new();
 
     private bool collapseNavMenu = true; 
     private string? displayMenu => collapseNavMenu ? "collapse" : null;
@@ -77,5 +79,11 @@
         var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(null);
         navManager.NavigateTo("/", true);
+    }
+
+    private string GetDisplayName(ClaimsPrincipal user)
+    {
+        string displayName = $"{ user.Claims.First(c => c.Type == ClaimTypes.Name).Value}  { user.Claims.First(c => c.Type == ClaimTypes.Surname).Value}";
+        return $"Hello {displayName}, Déconnexion";
     }
 }
