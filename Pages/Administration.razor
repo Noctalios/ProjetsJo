@@ -1,6 +1,6 @@
 ﻿@using ProjetsJo.Entites;
 @using ProjetsJo.BLL.Interfaces;
-@attribute [Authorize(Roles="Administrateur")];
+@attribute [Authorize(Roles = "Administrateur")];
 
 @inject IOfferService offerService;
 @inject ISnackbar Snackbar
@@ -32,20 +32,20 @@
         <div class="offer-edit">
             <div>
                 <label>Intitulé de l'offre: </label>
-                <input class="" @onfocusout="()=>Save(offer.Name, newOffer)" type="text" @bind="@offer.Name" />
+                <input class="" @onfocusout="()=>Save(offer.Name, offer)" type="text" @bind="@offer.Name" />
             </div>
             <div>
                 <label>Nombre de tickets de l'offre: </label>
                 <input @onfocusout="()=>Save(offer)" type="number" min="1" @bind="@offer.TicketNumber" />
             </div>
             <div>
-                <label>Prix: </label >
+                <label>Prix: </label>
                 <span>@offer.Price€</span>
             </div>
             <div>
                 <label>Ventes: @offer.Total</label>
             </div>
-            @*<button @onclick="()=>Disable(offer)">Désactivation</button>*@
+            <button @onclick="()=>Disable(offer.Id)">Désactivation</button>
         </div>
     }
 </div>
@@ -68,52 +68,6 @@
         resetNewOffer();
     }
 
-    private void Save(string newName, Offer offerToUpdate)
-    {
-        if (Offers.Any(o => o.Name != newName))
-            offerService.UpdateOffer(offerToUpdate);
-        else
-            // Todo actualise offerNameUnicity false for elements.
-            offerNameUnicity.First(o => o.Key == offerToUpdate.Id);
-    }
-
-    private void Save(Offer offerToUpdate)
-    {
-        offerService.UpdateOffer(offerToUpdate);
-    }
-
-    private void Add()
-    {
-        string warningMessage = "Connexion impossible:<br>";
-        if (string.IsNullOrWhiteSpace(newOffer.Name))
-            warningMessage += $"- Veuillez saisir un Nom <br>";
-        if (Offers.Any(o => o.Name != newOffer.Name))
-            warningMessage += $"- Au moins deux offres ont le même nom <br>";
-        if (newOffer.TicketNumber > 0)
-            warningMessage += $"- Une offre doit au moins vendre 1 ticket.<br>";
-        if (newOffer.Price > 0)
-            warningMessage += $"- Veuillez saisir votre Mot de Passe<br>";
-
-        if (warningMessage != "Connexion impossible:<br>")
-        {
-            offerService.AddOffer(newOffer);
-
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
-            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
-            Snackbar.Add($"Ajout réalisé.", Severity.Success);
-
-            GetOffers();
-            resetNewOffer();
-        }
-        else
-        {
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
-            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
-            Snackbar.Add($"L'ajout n'a pas eu lieu.", Severity.Error);
-        }
-    }
-
-    #region Technical
     private void resetNewOffer()
     {
         newOffer.Id = 0;
@@ -123,10 +77,62 @@
         newOffer.Total = 0;
     }
 
-    private void VerifyName()
+    private void Save(string newName, Offer offerToUpdate)
     {
-        
+        if (Offers.Count(o => o.Name == newName) <= 1)
+            offerService.UpdateOffer(offerToUpdate);
+        else
+            offerNameUnicity[offerToUpdate.Id] = true;
     }
 
-    #endregion
+    private void Add()
+    {
+        Console.WriteLine(newOffer.Name)
+        string warningMessage = "Ajout impossible:<br>";
+        if (string.IsNullOrWhiteSpace(newOffer.Name))
+            warningMessage += $"- Veuillez saisir un Nom <br>";
+        if (Offers.Count(o => o.Name == newOffer.Name) > 1)
+            warningMessage += $"- Au moins une autre offre à le même nom <br>";
+        if (newOffer.TicketNumber == 0)
+            warningMessage += $"- Une offre doit au moins vendre 1 ticket.<br>";
+        if (newOffer.Price == 0)
+            warningMessage += $"- L'offre doit avoir un prix<br>";
+
+        if (warningMessage == "Ajout impossible:<br>")
+        {
+            try
+            {
+                offerService.AddOffer(newOffer);
+
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+                Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+                Snackbar.Add($"Ajout réalisé.", Severity.Success);
+                GetOffers();
+                resetNewOffer();
+            }
+            catch
+            {
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+                Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+                Snackbar.Add($"L'ajout n'a pas eu lieu.", Severity.Error);
+            }
+        }
+        else
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+            Snackbar.Add($"{warningMessage}", Severity.Error);
+        }
+    }
+
+    private void Save(Offer offerToUpdate)
+    {
+        offerService.UpdateOffer(offerToUpdate);
+    }
+
+    private void Disable(int offerId)
+    {
+        offerService.DisableOffer(offerId);
+        GetOffers();
+    }
 }
