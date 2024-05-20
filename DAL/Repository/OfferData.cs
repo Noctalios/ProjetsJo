@@ -18,10 +18,6 @@ namespace ProjetsJo.DAL.Repository
         {
             return _configuration.GetConnectionString("DefaultConnection");
         }
-        private string GetConnectionString()
-        {
-            return _configuration.GetConnectionString("DefaultConnection");
-        }
 
         public List<Offer> GetOffers()
         {
@@ -40,10 +36,10 @@ namespace ProjetsJo.DAL.Repository
                         Offer offer = new Offer
                         (
                             reader.GetInt32("Id"),
-                            reader.GetString("Name"),
+                            reader.GetString("Label"),
                             reader.GetInt32("TicketNumber"),
                             reader.GetDecimal("Price"),
-                            reader.GetInt32("Total")
+                            reader[reader.GetOrdinal("Total")] is not DBNull ? reader.GetInt32("Total") : 0
                         );
                         offers.Add(offer);
                     }
@@ -74,7 +70,7 @@ namespace ProjetsJo.DAL.Repository
         public void DisableOffer(int id)
         {
             string sql = "EXEC [DisableOffer] @Id";
-            using (SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using (SqlConnection connection = new SqlConnection(GetConnexionString()))
             {
                 SqlCommand command = new SqlCommand(sql,connection);
 
@@ -89,7 +85,7 @@ namespace ProjetsJo.DAL.Repository
         public void UpdateOffer(Offer OfferToUpdate)
         {
             string sql = "EXEC [UpdateOffer] @OfferId, @Label, @TicketNumber";
-            using(SqlConnection connection = new SqlConnection(GetConnectionString()))
+            using(SqlConnection connection = new SqlConnection(GetConnexionString()))
             {
                 SqlCommand command = new SqlCommand(sql, connection);
 

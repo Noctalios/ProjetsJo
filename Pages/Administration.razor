@@ -3,6 +3,7 @@
 @attribute [Authorize(Roles="Administrateur")];
 
 @inject IOfferService offerService;
+@inject ISnackbar Snackbar
 
 @page "/Administration"
 
@@ -11,15 +12,15 @@
     <div class="offer-edit">
         <div>
             <label>Intitulé de l'offre: </label>
-            <input @onfocusout="(e)=>Save(e)" type="text" @bind="@newOffer.Name" />
+            <input class="" @onfocusout="()=>Save(newOffer.Name, newOffer)" type="text" @bind="@newOffer.Name" />
         </div>
         <div>
             <label>Nombre de tickets de l'offre: </label>
-            <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@newOffer.TicketNumber" />
+            <input @onfocusout="()=>Save(newOffer)" type="number" min="1" @bind="@newOffer.TicketNumber" />
         </div>
         <div>
             <label>Prix: </label>
-            <input @onfocusout="(e)=>Save(e)" type="number" min="0.00" step="0.01" @bind="@newOffer.Price" />
+            <input @onfocusout="()=>Save(newOffer)" type="number" min="0.00" step="0.01" @bind="@newOffer.Price" />
         </div>
         <div>
             <label>Ventes: @newOffer.Total</label>
@@ -31,19 +32,20 @@
         <div class="offer-edit">
             <div>
                 <label>Intitulé de l'offre: </label>
-                <input @onfocusout="(e)=>Save(e)" type="text" @bind="@offer.Name" />
+                <input class="" @onfocusout="()=>Save(offer.Name, newOffer)" type="text" @bind="@offer.Name" />
             </div>
             <div>
                 <label>Nombre de tickets de l'offre: </label>
-                <input @onfocusout="(e)=>Save(e)" type="number" min="1" @bind="@offer.TicketNumber" />
+                <input @onfocusout="()=>Save(offer)" type="number" min="1" @bind="@offer.TicketNumber" />
             </div>
             <div>
                 <label>Prix: </label >
-                <input @onfocusout="(e)=>Save(e)" type="number" min="0.00" step="0.01" @bind="@offer.Price" />
+                <span>@offer.Price€</span>
             </div>
             <div>
                 <label>Ventes: @offer.Total</label>
             </div>
+            @*<button @onclick="()=>Disable(offer)">Désactivation</button>*@
         </div>
     }
 </div>
@@ -51,25 +53,67 @@
 @code {
     private List<Offer> Offers = new List<Offer>();
     private Offer newOffer = new Offer();
+    private Dictionary<int, bool> offerNameUnicity = new();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Offers = offerService.GetOffers();
+        GetOffers();
     }
 
-    private void Save(FocusEventArgs e)
+    private void GetOffers()
     {
-        Console.WriteLine(e.ToString());
+        Offers = offerService.GetOffers();
+        Offers.ForEach(o => offerNameUnicity.Add(o.Id, true));
+        resetNewOffer();
+    }
+
+    private void Save(string newName, Offer offerToUpdate)
+    {
+        if (Offers.Any(o => o.Name != newName))
+            offerService.UpdateOffer(offerToUpdate);
+        else
+            // Todo actualise offerNameUnicity false for elements.
+            offerNameUnicity.First(o => o.Key == offerToUpdate.Id);
+    }
+
+    private void Save(Offer offerToUpdate)
+    {
+        offerService.UpdateOffer(offerToUpdate);
     }
 
     private void Add()
     {
-        offerService.AddOffer(newOffer);
-        Offers = offerService.GetOffers();
-        resetNewOffer();
+        string warningMessage = "Connexion impossible:<br>";
+        if (string.IsNullOrWhiteSpace(newOffer.Name))
+            warningMessage += $"- Veuillez saisir un Nom <br>";
+        if (Offers.Any(o => o.Name != newOffer.Name))
+            warningMessage += $"- Au moins deux offres ont le même nom <br>";
+        if (newOffer.TicketNumber > 0)
+            warningMessage += $"- Une offre doit au moins vendre 1 ticket.<br>";
+        if (newOffer.Price > 0)
+            warningMessage += $"- Veuillez saisir votre Mot de Passe<br>";
+
+        if (warningMessage != "Connexion impossible:<br>")
+        {
+            offerService.AddOffer(newOffer);
+
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+            Snackbar.Add($"Ajout réalisé.", Severity.Success);
+
+            GetOffers();
+            resetNewOffer();
+        }
+        else
+        {
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.TopRight;
+            Snackbar.Configuration.SnackbarVariant = Variant.Filled;
+            Snackbar.Add($"L'ajout n'a pas eu lieu.", Severity.Error);
+        }
     }
 
+    #region Technical
     private void resetNewOffer()
     {
         newOffer.Id = 0;
@@ -78,4 +122,11 @@
         newOffer.Price = 0m;
         newOffer.Total = 0;
     }
+
+    private void VerifyName()
+    {
+        
+    }
+
+    #endregion
 }
