@@ -1,15 +1,20 @@
 ﻿<div @onclick="CollapseMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All" @onclick="()=>ToTicketing(false)">
                 <span class="oi oi-home" aria-hidden="true"></span> Acceuil
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Billeterie" @onclick="()=>ToTicketing(true)">
+                <span class="oi oi-cart"></span> Billeterie
             </NavLink>
         </div>
         <AuthorizeView Roles="Administrateur">
             <Authorized>
                 <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Administration">
-                        <span class="oi oi-plus" aria-hidden="true"></span> Administration
+                    <NavLink class="nav-link" href="Administration" @onclick="()=>ToTicketing(false)">
+                        <span class="oi oi-badge" aria-hidden="true"></span> Administration
                     </NavLink>
                 </div>
             </Authorized>
@@ -21,9 +26,17 @@
     [Parameter]
     public EventCallback<bool> OnClickCallback { get; set; }
 
+    [Parameter]
+    public EventCallback<bool> OnGoTicketing { get; set; }
+
     protected async Task CollapseMenu()
     {
         await OnClickCallback.InvokeAsync();
+    }
+
+    private async Task ToTicketing(bool isGoing)
+    {
+        await OnGoTicketing.InvokeAsync(isGoing);
     }
 }
 

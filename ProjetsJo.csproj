@@ -7,10 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\Ticketing.razor.css" />
+    <None Remove="Pages\Ticketing.razor~RF1c5b1e98.TMP" />
     <None Remove="Shared\HomeDisplayInfo.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pages\Ticketing.razor.css" />
     <Content Include="Shared\HomeDisplayInfo.razor.css" />
   </ItemGroup>
 
