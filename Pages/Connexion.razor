@@ -80,6 +80,9 @@
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
+    [Parameter] 
+    public bool IsPageTicketing { get; set; }
+
     private string firstName = "";
     private string lastName = "";
     private string email = "";
@@ -134,14 +137,18 @@
             {
                 var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
                 await customAuthStateProvider.UpdateAuthenticationState(new UserSession
-                    {
-                        FirstName = currentUser.FirstName,
-                        LastName = currentUser.LastName,
-                        Email = currentUser.Email,
-                        Role = currentUser.IsAdmin ? "Administrateur" : "Utilisateur",
-                        AccountKey = currentUser.AccountKey,
-                    });
-                navManager.NavigateTo("/", true);
+                {
+                    FirstName = currentUser.FirstName,
+                    LastName = currentUser.LastName,
+                    Email = currentUser.Email,
+                    Role = currentUser.IsAdmin ? "Administrateur" : "Utilisateur",
+                    AccountKey = currentUser.AccountKey,
+                });
+
+                if (IsPageTicketing)
+                    navManager.NavigateTo("/Ticketing", true);
+                else
+                    navManager.NavigateTo("/", true);
 
                 MudDialog.Close(DialogResult.Ok(currentUser));
             }
