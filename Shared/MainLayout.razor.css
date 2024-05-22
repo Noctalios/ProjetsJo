@@ -14,7 +14,14 @@
     border-bottom: 0.0625rem solid #E9DDBE;
 }
 
-.header:first-child {
+.nav-buttons{
+    display: flex;
+    gap: 2rem;
+    font-size: 1.75rem;
+}
+
+.header > .nav-buttons > button:first-child {
+    font-size: 1.25rem;
     padding-left: 2rem;
 }
 
@@ -26,7 +33,9 @@
 }
 
 .connexion {
-    font-size: 1rem; 
+    display: flex;
+    gap: 0.5rem;
+    font-size: 1.5rem; 
     padding-right: 2rem;
 }
 

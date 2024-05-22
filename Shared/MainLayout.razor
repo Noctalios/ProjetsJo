@@ -17,20 +17,32 @@
 <div class="page">
     <main>
         <div class="header">
-            <button class="oi oi-menu" @onclick="ToggleNavMenu"></button>
+            <div class="nav-buttons">
+                <button class="oi oi-menu" @onclick="ToggleNavMenu"></button>
+                @if (!isPageTicketing)
+                {
+                    <button class="oi oi-cart" @onclick="GoToTicketing"></button>
+                }
+            </div>
             <h1>Billeterie des JO 2024</h1>
             <AuthorizeView>
                 <Authorized>
-                    <button @onclick="LogOut" class="connexion">@GetDisplayName(context.User)</button>
-            </Authorized>
+                    <button @onclick="LogOut" class="connexion ">
+                        @GetDisplayName(context.User)
+                        <span class="oi oi-account-logout" />
+                    </button>
+                </Authorized>
                 <NotAuthorized>
-                    <button class="connexion" @onclick="Connexion">Connexion</button>
+                    <button class="connexion" @onclick="Connexion">
+                        Connexion
+                        <span class="oi oi-account-login" />
+                    </button>
                 </NotAuthorized>
             </AuthorizeView>
         </div>
         <div class="body-zone">
             <div class="sidebar @displayMenu">
-                <NavMenu OnClickCallback="ToggleNavMenu" />
+                <NavMenu OnClickCallback="ToggleNavMenu" OnGoTicketing="(IsGoing)=>switchBoolean(IsGoing)" />
             </div>
             <article class="content">
                 @Body
@@ -44,7 +56,8 @@
     private Task<AuthenticationState> authenticationState { get; set; }
     private User connectedUser { get; set; } = new();
 
-    private bool collapseNavMenu = true; 
+    private bool collapseNavMenu = true;
+    private bool isPageTicketing = false;
     private string? displayMenu => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
@@ -52,17 +65,30 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
+    private void GoToTicketing()
+    {
+        switchBoolean(true);
+        navManager.NavigateTo("/Ticketing", false);
+    }
+
+    private void switchBoolean(bool moovePage)
+    {
+        isPageTicketing = moovePage;
+    }
+
     private async Task Connexion()
     {
         var options = new DialogOptions
-            {
-                CloseButton = true,
-                CloseOnEscapeKey = true,
-                FullWidth = true,
-                Position = DialogPosition.Center
-            };
+        {
+            CloseButton = true,
+            CloseOnEscapeKey = true,
+            FullWidth = true,
+            Position = DialogPosition.Center
+        };
+        var parameters = new DialogParameters();
+        parameters.Add("IsPageTicketing", isPageTicketing);
 
-        var dialog = await DialogService.ShowAsync<Connexion>("Connexion", options);
+        var dialog = await DialogService.ShowAsync<Connexion>("Connexion", parameters ,options);
         var result = await dialog.Result;
 
         if (result.Data != null)
@@ -78,12 +104,13 @@
     {
         var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(null);
+        switchBoolean(false);
         navManager.NavigateTo("/", true);
     }
 
     private string GetDisplayName(ClaimsPrincipal user)
     {
         string displayName = $"{ user.Claims.First(c => c.Type == ClaimTypes.Name).Value}  { user.Claims.First(c => c.Type == ClaimTypes.Surname).Value}";
-        return $"Hello {displayName}, Déconnexion";
+        return $"{displayName}, Déconnexion";
     }
 }
