@@ -1,0 +1,99 @@
+﻿@using ProjetsJo.Entites;
+@using ProjetsJo.BLL.Interfaces;
+@using ProjetsJo.Authentication;
+@using System.Security.Claims;
+@using ProjetsJo.Pages;
+@page "/Ticketing"
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject IOfferService _offerService
+
+<h2>Offres de Tickets</h2>
+<div class="ticketing-container">
+    <div class="offers">
+        @foreach(Offer offer in Offers)
+        {
+            <div class="offer">
+                <span>L'offre @offer.Name est au prix de @offer.Price€ pour l'achat de @offer.TicketNumber" ticket(s).</span>
+                <button class ="oi oi-plus" @onclick="()=>AddOfferToCart(offer)">Ajouter</button>
+            </div>
+        }
+    </div>
+    <div class="cart">
+        @foreach (Offer offerToPay in Cart.Keys.ToList())
+        {
+            <div class="offer-to-pay">
+                <span>@Cart[offerToPay] x @offerToPay.Name</span>
+                <div class="modify-quantity">
+                    <span class="oi oi-minus" @onclick="()=>Cart[offerToPay]--" />
+                    <input @bind="Cart[offerToPay]" type="number" class="modify-quantity" />
+                    <span class="oi oi-plus" @onclick="()=>Cart[offerToPay]++" />
+                </div>
+                <div>
+                    <span>Montant pour l'offre: @offerToPay.Price€</span>
+                    <button class="action-button oi oi-delete" @onclick="()=>RemoveOfferToPay(offerToPay)"></button>
+                </div>
+            </div>
+        }
+        <div class="pay-zone">
+            <span>Total à régler: @getTotalAmount()</span>
+            <AuthorizeView>
+                <Authorized>
+                    <button class="action-button" @onclick="PayCart">Paiment</button>
+                </Authorized>
+                <NotAuthorized>
+                    <span class="oi oi-account-login">Veuillez vous connecter</span> 
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } 
+    private List<Offer> Offers = new();
+    private Dictionary<Offer, int> Cart = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Offers = _offerService.GetOffers();
+    }
+
+    private void AddOfferToCart(Offer offerToAdd)
+    {
+        if (Cart.ContainsKey(offerToAdd))
+            Cart[offerToAdd]++;
+        else
+            Cart.Add(offerToAdd, 1);
+    }
+
+    private void RemoveOfferToPay(Offer offerToRemove)
+    {
+        Cart.Remove(offerToRemove);
+    }
+
+    private void ModifyQuantity(ChangeEventArgs e, Offer offerToModify)
+    {
+        if(e.Value != null)
+            if(Int32.TryParse(e.Value!.ToString(), out int result))
+                Cart[offerToModify] = result;
+    }
+
+
+    private decimal getTotalAmount()
+    {
+        decimal amount = 0m;
+        Cart.Keys.ToList().ForEach(o => amount += Cart[o] * o.Price);
+        return amount;
+    }
+
+    private void PayCart()
+    {
+        Console.WriteLine("hello");
+    }
+}

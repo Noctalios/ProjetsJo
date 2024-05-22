@@ -1,0 +1,35 @@
+﻿.offer {
+    width: 80%;
+    height: 100%;
+    padding: 1rem;
+} 
+
+.cart {
+    width: 20%;
+    height: 100%;
+    padding: 1rem;
+}
+
+.offer {
+    display: flex;
+    flex-wrap: wrap;
+    border: 0.0625rem solid goldenrod;
+    border-radius: 0.5rem;
+}
+
+.offer-to-pay{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.action-button {
+    padding: 0.5rem;
+    background-color: lightblue;
+    border: 0.0625rem solid goldenrod;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.modify-quantity{
+
+}
