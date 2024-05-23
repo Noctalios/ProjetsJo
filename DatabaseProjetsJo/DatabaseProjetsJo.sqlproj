@@ -61,6 +61,7 @@
     <Folder Include="dbo\Stored Procedures\" />
     <Folder Include="dbo\Stored Procedures\User" />
     <Folder Include="dbo\Stored Procedures\Offer" />
+    <Folder Include="dbo\Stored Procedures\Ticket" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Offer.sql" />
@@ -73,5 +74,6 @@
     <Build Include="dbo\Stored Procedures\User\CreateUser.sql" />
     <Build Include="dbo\Stored Procedures\User\GetUser.sql" />
     <Build Include="dbo\Stored Procedures\User\GetUserGuids.sql" />
+    <Build Include="dbo\Stored Procedures\Ticket\GetUserTickets.sql" />
   </ItemGroup>
 </Project>

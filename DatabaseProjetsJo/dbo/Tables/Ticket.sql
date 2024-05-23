@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Ticket] (
     [Id]      INT             NOT NULL,
     [Date]    DATETIME        NOT NULL,
-    [QrCode]  VARBINARY (MAX) NOT NULL,
+    [QrCode]  NVARCHAR(MAX)     NOT NULL,
     [OfferId] INT             NOT NULL,
     [UserId]  INT             NOT NULL, 
     PRIMARY KEY CLUSTERED ([Id] ASC),

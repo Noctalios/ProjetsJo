@@ -74,7 +74,7 @@
             connectedUser.Email = currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Email).Value;
             connectedUser.AccountKey = Guid.Parse(currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Sid).Value);
             connectedUser.IsAdmin = currentUser.User.Claims.First(c => c.Type == ClaimTypes.Role).Value == "Administrateur";
-            //connectedUser.Tickets = _ticketService.GetUserTickets(connectedUser.AccountKey);
+            connectedUser.Tickets = _ticketService.GetUserTickets(connectedUser.AccountKey).Result;
         };
     }
 
