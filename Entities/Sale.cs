@@ -1,5 +1,5 @@
-﻿namespace ProjetsJo.Entites
-{
+﻿namespace ProjetsJo.Entities
+{   
     public class Sale
     {
         public int Total { get; set; }

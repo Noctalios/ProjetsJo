@@ -1,4 +1,4 @@
-﻿namespace ProjetsJo.Entites
+﻿namespace ProjetsJo.Entities
 {
     public class Offer : Sale
     {

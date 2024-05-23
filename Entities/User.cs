@@ -1,6 +1,6 @@
 ﻿using ProjetsJo.Entities;
 
-namespace ProjetsJo.Entites
+namespace ProjetsJo.Entities
 {
     public class User
     {
