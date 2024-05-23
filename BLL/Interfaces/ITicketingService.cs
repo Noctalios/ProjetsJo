@@ -5,5 +5,6 @@ namespace ProjetsJo.BLL.Interfaces
 {
     public interface ITicketingService
     {
+        public Task<bool> MockPaymentApi();
     }
 }

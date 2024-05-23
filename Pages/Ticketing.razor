@@ -10,6 +10,7 @@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @inject IOfferService _offerService
+@inject ITicketingService _ticketService
 
 <h2>Offres de Tickets</h2>
 <div class="ticketing-container">
@@ -57,11 +58,24 @@
     private Task<AuthenticationState> authenticationState { get; set; } 
     private List<Offer> Offers = new();
     private Dictionary<Offer, int> Cart = new();
+    private User connectedUser { get; set; } = new();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Offers = _offerService.GetOffers();
+
+        // GetAuthentication
+        AuthenticationState currentUser = authenticationState.Result;
+        if (currentUser.User.Identity.IsAuthenticated)
+        {
+            connectedUser.FirstName = currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Name).Value;
+            connectedUser.LastName = currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Surname).Value;
+            connectedUser.Email = currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Email).Value;
+            connectedUser.AccountKey = Guid.Parse(currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Sid).Value);
+            connectedUser.IsAdmin = currentUser.User.Claims.First(c => c.Type == ClaimTypes.Role).Value == "Administrateur";
+            //connectedUser.Tickets = _ticketService.GetUserTickets(connectedUser.AccountKey);
+        };
     }
 
     private void AddOfferToCart(Offer offerToAdd)
@@ -92,8 +106,11 @@
         return amount;
     }
 
-    private void PayCart()
+    private async void PayCart()
     {
-        Console.WriteLine("hello");
+        Console.WriteLine(DateTime.Now);
+        await _ticketService.MockPaymentApi();
+        Console.WriteLine(DateTime.Now);
+        
     }
 }
