@@ -1,6 +1,6 @@
 ﻿using ProjetsJo.BLL.Interfaces;
 using ProjetsJo.DAL.Interfaces;
-using ProjetsJo.Entites;
+using ProjetsJo.Entities;
 using System.Linq;
 
 namespace ProjetsJo.BLL.Services

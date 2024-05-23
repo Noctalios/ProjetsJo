@@ -1,4 +1,4 @@
-﻿using ProjetsJo.Entites;
+﻿using ProjetsJo.Entities;
 using ProjetsJo.DAL.Interfaces;
 using ProjetsJo.BLL.Interfaces;
 

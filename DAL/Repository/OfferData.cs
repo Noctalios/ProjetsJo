@@ -2,7 +2,7 @@
 
 using System.Data;
 using ProjetsJo.DAL.Interfaces;
-using ProjetsJo.Entites;
+using ProjetsJo.Entities;
 
 namespace ProjetsJo.DAL.Repository
 {

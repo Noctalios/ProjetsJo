@@ -1,4 +1,4 @@
-﻿using ProjetsJo.Entites;
+﻿using ProjetsJo.Entities;
 
 namespace ProjetsJo.BLL.Interfaces
 {

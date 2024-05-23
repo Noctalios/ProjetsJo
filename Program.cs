@@ -30,6 +30,7 @@ builder.Services.AddScoped<IUserData, UserData>();
 
 builder.Services.AddScoped<IOfferService, OfferService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITicketingService, TicketingService>();
 
 var app = builder.Build();
 
