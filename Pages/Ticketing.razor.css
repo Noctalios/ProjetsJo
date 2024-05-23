@@ -1,4 +1,10 @@
-﻿.offer {
+﻿.ticketing-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.offer {
     width: 80%;
     height: 100%;
     padding: 1rem;

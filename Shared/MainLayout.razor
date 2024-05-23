@@ -21,7 +21,11 @@
                 <button class="oi oi-menu" @onclick="ToggleNavMenu"></button>
                 @if (!isPageTicketing)
                 {
-                    <button class="oi oi-cart" @onclick="GoToTicketing"></button>
+                    <AuthorizeView>
+                        <NotAuthorized>
+                            <button class="oi oi-cart" @onclick="GoToTicketing"></button>
+                        </NotAuthorized>
+                    </AuthorizeView>
                 }
             </div>
             <h1>Billeterie des JO 2024</h1>
@@ -57,7 +61,7 @@
     private User connectedUser { get; set; } = new();
 
     private bool collapseNavMenu = true;
-    private bool isPageTicketing = false;
+    static public bool isPageTicketing = false;
     private string? displayMenu => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
@@ -86,6 +90,7 @@
             Position = DialogPosition.Center
         };
         var parameters = new DialogParameters();
+
         parameters.Add("IsPageTicketing", isPageTicketing);
 
         var dialog = await DialogService.ShowAsync<Connexion>("Connexion", parameters ,options);
