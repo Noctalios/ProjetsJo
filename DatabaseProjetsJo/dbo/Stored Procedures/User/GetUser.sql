@@ -15,12 +15,8 @@ AS
 		  U.[LastName],
 		  U.[Mail],
 		  U.[AccountKey],
-		  U.[IsAdmin],
-		  T.[Id],
-		  T.[Date],
-		  T.[QrCode]
+		  U.[IsAdmin]
 		FROM [User] U
-		LEFT JOIN Ticket T ON T.UserId = U.Id
 		WHERE U.[Firstname] = @firstName 
 		  AND U.[LastName] = @lastName 
 		  AND U.[Password] = @password

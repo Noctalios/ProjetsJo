@@ -60,7 +60,7 @@ namespace ProjetsJo.DAL.Repository
             try
             {
                 string sql = "EXEC [GetUser] @firstName, @lastName, @password ;";
-                Dictionary<Guid, User> result= new();
+                User? user = null;
                 using (SqlConnection connection = new SqlConnection(GetConnexionString()))
                 {
                     SqlCommand command = new SqlCommand(sql, connection);
@@ -75,44 +75,17 @@ namespace ProjetsJo.DAL.Repository
                     {
                         while (reader.Read())
                         {
-                            if (result.TryGetValue(Guid.Parse(reader.GetString("AccountKey")), out User? currentUser))
-                            {
-                                currentUser.Tickets?.Add
-                                (
-                                    new Ticket
-                                    (
-                                        reader.GetInt32("Id"),
-                                        reader.GetString("QrCode"),
-                                        reader.GetDateTime("Date")
-                                    )
-                                );
-                            }
-                            else
-                            {
-                                User newUser = new User
-                                (
-                                    reader.GetString("FirstName"),
-                                    reader.GetString("LastName"),
-                                    reader.GetString("Mail"),
-                                    Guid.Parse(reader.GetString("AccountKey")),
-                                    reader.GetBoolean("IsAdmin")
-                                );
-                                if (reader[reader.GetOrdinal("Id")] is not DBNull )
-                                {
-                                    newUser.Tickets = new();
-                                    Ticket ticket = new Ticket
-                                    (
-                                        reader.GetInt32("Id"),
-                                        reader.GetString("QrCode"),
-                                        reader.GetDateTime("Date")
-                                    );
-                                }
-                                result.Add(Guid.Parse(reader.GetString("AccountKey")), newUser);
-                            }
+                            user = new User(
+                            reader.GetString("FirstName"),
+                            reader.GetString("LastName"),
+                            reader.GetString("Mail"),
+                            Guid.Parse(reader.GetString("AccountKey")),
+                            reader.GetBoolean("IsAdmin")
+                            );
                         }
                     }
                     connection.Close();
-                    return result.Count > 0 ? result.Values.First() : null;
+                    return user;
                 };
             }
             catch(Exception ex)
