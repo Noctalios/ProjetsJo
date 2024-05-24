@@ -43,9 +43,9 @@
                     <input @bind="Cart[offerToPay]" type="number" class="modify-quantity" />
                     <span class="oi oi-plus" @onclick="()=>Cart[offerToPay]++" />
                 </div>
-                <div>
+                <div class="action-button">
                     <span>Montant pour l'offre: @offerToPay.Price€</span>
-                    <button class="action-button oi oi-delete" @onclick="()=>RemoveOfferToPay(offerToPay)"></button>
+                    <button class="oi oi-delete" @onclick="()=>RemoveOfferToPay(offerToPay)"></button>
                 </div>
             </div>
         }
