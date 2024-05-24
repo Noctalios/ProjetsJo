@@ -37,11 +37,13 @@
         @foreach (Offer offerToPay in Cart.Keys.ToList())
         {
             <div class="offer-to-pay">
-                <span>@Cart[offerToPay] x @offerToPay.Name</span>
-                <div class="modify-quantity">
-                    <span class="oi oi-minus" @onclick="()=>Cart[offerToPay]--" />
-                    <input @bind="Cart[offerToPay]" type="number" class="modify-quantity" />
-                    <span class="oi oi-plus" @onclick="()=>Cart[offerToPay]++" />
+                <div class="offer-info">
+                    <span>@Cart[offerToPay] x @offerToPay.Name</span>
+                    <div class="modify-quantity">
+                        <span class="oi oi-minus" @onclick="()=>DecreaseCart(offerToPay)" />
+                        <input @bind="Cart[offerToPay]" type="number" class="modify-quantity" />
+                        <span class="oi oi-plus" @onclick="()=>Cart[offerToPay]++" />
+                    </div>
                 </div>
                 <div class="action-button">
                     <span>Montant pour l'offre: @offerToPay.Price€</span>
@@ -99,6 +101,13 @@
     private void RemoveOfferToPay(Offer offerToRemove)
     {
         Cart.Remove(offerToRemove);
+    }
+
+    private void DecreaseCart(Offer offerToDecrease)
+    {
+        Cart[offerToDecrease]--;
+        if (Cart[offerToDecrease] == 0)
+            RemoveOfferToPay(offerToDecrease);
     }
 
     private void ModifyQuantity(ChangeEventArgs e, Offer offerToModify)

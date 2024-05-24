@@ -3,6 +3,7 @@
     flex-direction: row;
     width: 100%;
     font-size: 1rem;
+    padding-top:1rem;
 }
 
 .offers {
@@ -16,7 +17,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 1rem;
+    padding: 0 1rem; 
 }
 
 .offer {
@@ -27,22 +28,31 @@
     border-radius: 0.5rem;
 }
 
+.offer-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .offer-to-pay{
     display: flex;
     flex-direction:column;
+    gap: 0.5rem;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0 0 1rem;
 }
 
 .action-button {
-    padding: 0.5rem;
-    background-color: lightblue;
-    border: 0.0625rem solid goldenrod;
-    border-bottom-left-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
 }
 
 .modify-quantity{
     display:flex;
     gap: 0.25rem;
     align-items: center;
+}
+
+.modify-quantity > input {
+    max-width: 3rem;
 }
