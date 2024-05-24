@@ -7,6 +7,6 @@ namespace ProjetsJo.BLL.Interfaces
     {
         public Task<bool> MockPaymentApi();
         public Task<List<Ticket>> GetUserTickets(Guid accountKey);
-        public void CreateTickets(Guid accountKey, int number);
+        public void CreateTickets(Guid accountKey, Dictionary<Offer, int> cart);
     }
 }

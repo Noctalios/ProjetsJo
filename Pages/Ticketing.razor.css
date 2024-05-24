@@ -23,11 +23,18 @@
 .offer {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
     padding: 1rem;
     border: 0.0625rem solid goldenrod;
     border-radius: 0.5rem;
 }
 
+.offer > button > span {
+    font-size: 1.5rem;
+    padding-left: 0.25rem;
+}
 .offer-info {
     display: flex;
     flex-direction: row;
@@ -55,4 +62,26 @@
 
 .modify-quantity > input {
     max-width: 3rem;
+}
+
+.tickets > img {
+    width: 150px;
+    height: 150px;
+}
+
+.pay-zone > div {
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+.pay-zone > button {
+    font-size: 2rem;
+    border: goldenrod;
+    border-radius: 0.5rem;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+}
+
+.pay-zone > span {
+    margin-top: 2rem;
+    font-size: 1.25rem;
 }

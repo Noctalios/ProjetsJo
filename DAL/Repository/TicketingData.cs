@@ -44,5 +44,53 @@ namespace ProjetsJo.DAL.Repository
             };
             return tickets;
         }
+
+        public void SaveTicketsForUser(Guid accountKey, Dictionary<Ticket, int> tickets)
+        {
+            string sql = "EXEC [SaveTicketsForUser] @Tickets";
+
+            using (SqlConnection connection = new SqlConnection(GetConnexionString()))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                // Parameter @Tickets
+                SqlParameter parameter = command.Parameters.AddWithValue("@Tickets", CreateTicketsDataTable(tickets, accountKey));
+                parameter.SqlDbType = SqlDbType.Structured;
+                parameter.TypeName = "dbo.AllergiesTableType";
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
+        #region DataTable
+
+        private DataTable CreateTicketsDataTable(Dictionary<Ticket, int> tickets, Guid accountKey)
+        {
+            DataTable ticketTable = new DataTable();
+            ticketTable.Columns.Add("QrCode", typeof(string));
+            ticketTable.Columns.Add("Date", typeof(DateTime));
+            ticketTable.Columns.Add("OfferId", typeof(int));
+            ticketTable.Columns.Add("accountKey", typeof(string));
+
+            if (tickets != null)
+            {
+                foreach (var ticket in tickets.Keys.ToList())
+                {
+                    ticketTable.LoadDataRow(new object[]
+                    {
+                        ticket.Qrcode,
+                        ticket.Date,
+                        tickets[ticket],
+                        accountKey.ToString()
+                    },
+                    true);
+                }
+            }
+
+            return ticketTable;
+        }
+
+        #endregion
     }
 }

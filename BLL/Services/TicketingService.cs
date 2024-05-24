@@ -25,23 +25,27 @@ namespace ProjetsJo.BLL.Services
             return await Task.FromResult(_ticketingData.GetUserTickets(accountKey));
         }
 
-        public void CreateTickets(Guid accountKey, int number)
+        public void CreateTickets(Guid accountKey, Dictionary<Offer, int> cart)
         {
-            List<Ticket> newTickets = GenerateQrCode(accountKey, number);
+            Dictionary<Ticket, int> newTickets = GenerateQrCode(accountKey, cart);
+            _ticketingData.SaveTicketsForUser(accountKey, newTickets);
         }
-        private List<Ticket> GenerateQrCode(Guid accountKey, int number) 
+        private Dictionary<Ticket, int> GenerateQrCode(Guid accountKey, Dictionary<Offer, int> cart) 
         {
-            List<Ticket> tickets =  new();
+            Dictionary<Ticket, int > tickets =  new();
             DateTime dateTime = DateTime.Now;
-
+            int i = 0;
             using QRCodeGenerator qrGenerator = new();
-            for ( int i = 0; i < number; i++) 
+            foreach (Offer offer in cart.Keys.ToList()) 
             {
-                using QRCodeData qrCodeData = qrGenerator.CreateQrCode($"Le billet est celui de {accountKey} et a été acheté le {dateTime.AddMilliseconds(i)}", QRCodeGenerator.ECCLevel.Q);
-                Base64QRCode qrCode = new Base64QRCode(qrCodeData);
+                DateTime dateTicket= dateTime.AddMilliseconds(i);
+
+                using QRCodeData qrCodeData = qrGenerator.CreateQrCode($"Le billet est celui de {accountKey} et a été acheté le {dateTicket.ToString("0:MM/dd/yyy HH:mm:ss.fff")}", QRCodeGenerator.ECCLevel.Q);
+                Base64QRCode qrCode = new (qrCodeData);
                 string qrCodeImageAsBase64 = qrCode.GetGraphic(20);
-                Ticket ticket = new Ticket(0-i, qrCodeImageAsBase64, dateTime.AddMilliseconds(i));
-                tickets.Add(ticket);
+                Ticket ticket = new (0, qrCodeImageAsBase64, dateTicket);
+                tickets.Add(ticket, offer.Id);
+                i++;
             }
             return tickets;
         }
