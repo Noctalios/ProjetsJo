@@ -62,6 +62,7 @@
     <Folder Include="dbo\Stored Procedures\User" />
     <Folder Include="dbo\Stored Procedures\Offer" />
     <Folder Include="dbo\Stored Procedures\Ticket" />
+    <Folder Include="dbo\User Defined Types\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Offer.sql" />
@@ -75,5 +76,7 @@
     <Build Include="dbo\Stored Procedures\User\GetUser.sql" />
     <Build Include="dbo\Stored Procedures\User\GetUserGuids.sql" />
     <Build Include="dbo\Stored Procedures\Ticket\GetUserTickets.sql" />
+    <Build Include="dbo\User Defined Types\TicketTableType.sql" />
+    <Build Include="dbo\Stored Procedures\Ticket\CreateTicketsForUser.sql" />
   </ItemGroup>
 </Project>

@@ -74,14 +74,13 @@
     font-size: 1.5rem;
 }
 .pay-zone > button {
-    font-size: 2rem;
-    border: goldenrod;
-    border-radius: 0.5rem;
-    padding: 1rem 2rem;
-    margin-top: 2rem;
+    font-size: 1.75rem;
+    background-color: lightblue;
+    border: 0.0625rem solid goldenrod;
+    border-radius: 0.75rem;
+    padding: 0.5rem ;
 }
 
 .pay-zone > span {
-    margin-top: 2rem;
     font-size: 1.25rem;
 }

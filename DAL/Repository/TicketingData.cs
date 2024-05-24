@@ -2,6 +2,7 @@
 using ProjetsJo.DAL.Interfaces;
 using System.Data;
 using ProjetsJo.Entities;
+using System.Globalization;
 
 namespace ProjetsJo.DAL.Repository
 {
@@ -47,7 +48,7 @@ namespace ProjetsJo.DAL.Repository
 
         public void SaveTicketsForUser(Guid accountKey, Dictionary<Ticket, int> tickets)
         {
-            string sql = "EXEC [SaveTicketsForUser] @Tickets";
+            string sql = "EXEC [CreateTicketsForUser] @Tickets";
 
             using (SqlConnection connection = new SqlConnection(GetConnexionString()))
             {
@@ -55,7 +56,7 @@ namespace ProjetsJo.DAL.Repository
                 // Parameter @Tickets
                 SqlParameter parameter = command.Parameters.AddWithValue("@Tickets", CreateTicketsDataTable(tickets, accountKey));
                 parameter.SqlDbType = SqlDbType.Structured;
-                parameter.TypeName = "dbo.AllergiesTableType";
+                parameter.TypeName = "dbo.TicketTableType";
 
                 connection.Open();
                 command.ExecuteNonQuery();

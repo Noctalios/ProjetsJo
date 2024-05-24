@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Ticket] (
-    [Id]      INT             NOT NULL,
-    [Date]    DATETIME        NOT NULL,
+    [Id]      INT    IDENTITY NOT NULL,
+    [Date]    DATETIME2(7)        NOT NULL,
     [QrCode]  NVARCHAR(MAX)     NOT NULL,
     [OfferId] INT             NOT NULL,
     [UserId]  INT             NOT NULL, 
