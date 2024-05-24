@@ -11,6 +11,7 @@
     align-items: center;
     height: 7.2vh;
     color: #000000;
+    background-color: cornflowerblue; 
     border-bottom: 0.0625rem solid #E9DDBE;
 }
 
@@ -61,7 +62,6 @@
 
 main {
     flex: 1;
-    background: linear-gradient(135deg, #0055A4 20%, #FFFFFF 50%, #EF4135 80%);
 }
 
 .body-zone {

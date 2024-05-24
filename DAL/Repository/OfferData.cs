@@ -39,7 +39,8 @@ namespace ProjetsJo.DAL.Repository
                             reader.GetString("Label"),
                             reader.GetInt32("TicketNumber"),
                             reader.GetDecimal("Price"),
-                            reader[reader.GetOrdinal("Total")] is not DBNull ? reader.GetInt32("Total") : 0
+                            reader[reader.GetOrdinal("Total")] is not DBNull ? reader.GetInt32("Total") : 0,
+                            reader.GetBoolean("State") 
                         );
                         offers.Add(offer);
                     }

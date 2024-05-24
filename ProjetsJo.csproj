@@ -20,6 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
     <PackageReference Include="MudBlazor" Version="6.15.0" />
+    <PackageReference Include="QRCoder" Version="1.5.1" />
   </ItemGroup>
 
 </Project>

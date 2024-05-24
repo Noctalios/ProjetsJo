@@ -2,6 +2,7 @@
 @using ProjetsJo.BLL.Interfaces;
 @using ProjetsJo.Authentication;
 @using System.Security.Claims;
+@using System.Text.Encodings;
 @using ProjetsJo.Pages;
 @page "/Ticketing"
 @inherits LayoutComponentBase
@@ -12,10 +13,19 @@
 @inject IOfferService _offerService
 @inject ITicketingService _ticketService
 
-<h2>Offres de Tickets</h2>
 <div class="ticketing-container">
+    <img style="width: 150px; height:150px;" alt="Embedded QR Code" src="data:image/jpeg;base64,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" />
+    @if (connectedUser.Tickets != null)
+    {
+        <div class="tickets">
+            @foreach (Ticket ticket in connectedUser.Tickets!)
+            {
+                <img alt="Embedded QR Code" src="data:image/jpeg;base64,ticket.Qrcode" />
+            }
+        </div>
+    }
     <div class="offers">
-        @foreach(Offer offer in Offers)
+        @foreach(Offer offer in Offers.Where(o => o.State))
         {
             <div class="offer">
                 <span>L'offre @offer.Name est au prix de @offer.Price€ pour l'achat de @offer.TicketNumber" ticket(s).</span>
@@ -74,7 +84,7 @@
             connectedUser.Email = currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Email).Value;
             connectedUser.AccountKey = Guid.Parse(currentUser.User.Claims.First(c => c.Type  == ClaimTypes.Sid).Value);
             connectedUser.IsAdmin = currentUser.User.Claims.First(c => c.Type == ClaimTypes.Role).Value == "Administrateur";
-            connectedUser.Tickets = _ticketService.GetUserTickets(connectedUser.AccountKey).Result;
+            ActualiseUserTickets();
         };
     }
 
@@ -108,9 +118,15 @@
 
     private async void PayCart()
     {
-        Console.WriteLine(DateTime.Now);
+        int number = 0;
+        Cart.Keys.ToList().ForEach(o => number += o.TicketNumber * Cart[o]);
         await _ticketService.MockPaymentApi();
-        Console.WriteLine(DateTime.Now);
-        
+        _ticketService.CreateTickets(connectedUser.AccountKey, number);
+        ActualiseUserTickets();
+    }
+
+    private void ActualiseUserTickets()
+    {
+        connectedUser.Tickets = _ticketService.GetUserTickets(connectedUser.AccountKey).Result;
     }
 }

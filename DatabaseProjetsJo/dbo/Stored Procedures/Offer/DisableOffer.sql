@@ -8,7 +8,7 @@ AS
   BEGIN TRY
 	BEGIN TRAN DisableOffer
 		UPDATE Offer
-		SET [State] = 1
+		SET [State] = 0
 		WHERE Id = @OfferId
 	COMMIT TRAN DisableOffer
   END TRY

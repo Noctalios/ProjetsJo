@@ -25,6 +25,7 @@ builder.Services.AddTransient<AuthenticationStateProvider, CustomAuthenticationS
 
 builder.Services.AddScoped<IOfferData, OfferData>();
 builder.Services.AddScoped<IUserData, UserData>();
+builder.Services.AddScoped<ITicketingData, TicketingData>();
 
 // Services related to BLL
 
