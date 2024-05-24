@@ -31,9 +31,13 @@
                 <span>Offre: @offer.Name</span>
                 <span>Nombre de ticket: @offer.TicketNumber</span>
                 <span>Prix: @offer.Price€</span>
-                <button class="oi oi-plus" @onclick="()=>AddOfferToCart(offer)">
-                    <span>Ajouter</span>
-                </button>
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <button class="oi oi-plus" @onclick="()=>AddOfferToCart(offer)">
+                            <span>Ajouter</span>
+                        </button>
+                    </NotAuthorized>
+                </AuthorizeView>
             </div>
         }
     </div>
@@ -141,5 +145,6 @@
     private void ActualiseUserTickets()
     {
         connectedUser.Tickets = _ticketService.GetUserTickets(connectedUser.AccountKey).Result;
+        StateHasChanged();
     }
 }
