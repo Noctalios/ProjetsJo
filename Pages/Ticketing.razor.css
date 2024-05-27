@@ -1,25 +1,50 @@
 ﻿.ticketing-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    gap: 2rem;
+    width: 100vw;
+    max-height: calc( 100VH - 7.2vh );
+    height: 93vh;
     font-size: 1rem;
-    padding-top:1rem;
+    padding:1rem;
+    background-color: lightblue;
+    flex-shrink: 1 2 1;
 }
 
+.ticketing-container > div {
+    height: fit-content;
+    padding: 1rem;
+    background-color: lightcyan;
+    border: 0.25rem solid darkgoldenrod;
+    border-radius: 1rem;
+    font-weight: bold;
+}
+
+/* TICKETS */
+
+.tickets-container {
+    width: auto;
+}
+
+.tickets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tickets > img {
+    width: 150px;
+    height: 150px;
+}
+
+/* OFFERS */
 .offers {
     display: flex;
-    flex-direction:column;
-    gap: 1rem;
-    height: 100%;
-} 
-
-.cart {
-    display: flex;
     flex-direction: column;
-    height: 100%;
-    padding: 0 1rem; 
-}
-
+    gap: 1rem;
+    font-size: 1.25rem;
+    width: 40%;
+} 
 .offer {
     display: flex;
     flex-wrap: wrap;
@@ -29,16 +54,51 @@
     padding: 1rem;
     border: 0.0625rem solid goldenrod;
     border-radius: 0.5rem;
+    background-color: lightblue;
 }
 
-.offer > button > span {
-    font-size: 1.5rem;
-    padding-left: 0.25rem;
+.offer > button {
+    padding: 0.25rem;
+    background-color: lightcyan;
+    border: 0.0625rem solid goldenrod;
+    border-radius: 0.75rem;
 }
+
+/* CART */
+.cart {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 25%;
+    font-size: 1.125rem;
+}
+
+.action-button {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem; 
+}
+
+.modify-quantity{
+    display:flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.modify-quantity > input {
+    max-width: 3.5rem;
+    padding: 0 0 0 0.25rem;
+    background-color: lightcyan;
+    border: 0.0625rem solid darkgoldenrod;
+    border-radius: 0.5rem;
+}
+
 .offer-info {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .offer-to-pay{
@@ -46,35 +106,22 @@
     flex-direction:column;
     gap: 0.5rem;
     justify-content: space-between;
-    padding: 0 0 1rem;
+    padding: 0.5rem;
+    background-color: lightblue;
+    border: 0.0625rem solid darkgoldenrod;
+    border-radius: 0.5rem;
 }
 
-.action-button {
+.pay-zone {
     display: flex;
     justify-content: space-between;
-}
-
-.modify-quantity{
-    display:flex;
-    gap: 0.25rem;
     align-items: center;
-}
-
-.modify-quantity > input {
-    max-width: 3rem;
-}
-
-.tickets > img {
-    width: 150px;
-    height: 150px;
-}
-
-.pay-zone > div {
-    font-weight: bolder;
+    flex-wrap: wrap;
     font-size: 1.5rem;
+    margin-top: 0.5rem;
 }
+
 .pay-zone > button {
-    font-size: 1.75rem;
     background-color: lightblue;
     border: 0.0625rem solid goldenrod;
     border-radius: 0.75rem;

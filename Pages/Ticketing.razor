@@ -14,17 +14,8 @@
 @inject ITicketingService _ticketService
 
 <div class="ticketing-container">
-
-    @if (connectedUser.Tickets != null)
-    {
-        <div class="tickets">
-            @foreach (Ticket ticket in connectedUser.Tickets!)
-            {
-                <img alt="Embedded QR Code" src="data:image/jpeg;base64,@ticket.Qrcode" />
-            }
-        </div>
-    }
     <div class="offers">
+        <h3>Les Offres :</h3>
         @foreach(Offer offer in Offers.Where(o => o.State))
         {
             <div class="offer">
@@ -32,45 +23,62 @@
                 <span>Nombre de ticket: @offer.TicketNumber</span>
                 <span>Prix: @offer.Price€</span>
                 <AuthorizeView>
-                    <NotAuthorized>
-                        <button class="oi oi-plus" @onclick="()=>AddOfferToCart(offer)">
-                            <span>Ajouter</span>
+                    <Authorized>
+                        <button class="add-offer" @onclick="()=>AddOfferToCart(offer)">
+                            Ajouter
                         </button>
-                    </NotAuthorized>
+                    </Authorized>
                 </AuthorizeView>
             </div>
         }
     </div>
-    <div class="cart">
-        @foreach (Offer offerToPay in Cart.Keys.ToList())
-        {
-            <div class="offer-to-pay">
-                <div class="offer-info">
-                    <span>@Cart[offerToPay] x @offerToPay.Name</span>
-                    <div class="modify-quantity">
-                        <span class="oi oi-minus" @onclick="()=>DecreaseCart(offerToPay)" />
-                        <input @bind="Cart[offerToPay]" type="number" class="modify-quantity" />
-                        <span class="oi oi-plus" @onclick="()=>Cart[offerToPay]++" />
+    @if (connectedUser.Tickets != null)
+    {
+        <div class="tickets-container">
+            <h3>Mes Tickets :</h3>
+            <div class="tickets">
+                @foreach (Ticket ticket in connectedUser.Tickets!)
+                {
+                    <img alt="Embedded QR Code" src="data:image/jpeg;base64,@ticket.Qrcode" />
+                }
+            </div>
+        </div>
+    }
+    @if (Cart.Keys.ToList().Count > 0)
+    {
+        <div class="cart">
+            <h3>Mon Panier :</h3>
+            @foreach (Offer offerToPay in Cart.Keys.ToList())
+            {
+                <div class="offer-to-pay">
+                    <div class="offer-info">
+                        <span>@Cart[offerToPay] x @offerToPay.Name</span>
+                        <div class="modify-quantity">
+                            <span class="oi oi-minus" @onclick="()=>DecreaseCart(offerToPay)" />
+                            <input @bind="Cart[offerToPay]" type="number" class="modify-quantity" />
+                            <span class="oi oi-plus" @onclick="()=>Cart[offerToPay]++" />
+                        </div>
+                        <button class="oi oi-delete" @onclick="()=>RemoveOfferToPay(offerToPay)"></button>
+                    </div>
+                    <div class="action-button">
+                        <span>Prix: @offerToPay.Price€</span>
+                        <span>Montant pour l'offre: @(offerToPay.Price * Cart[offerToPay])€</span>
                     </div>
                 </div>
-                <div class="action-button">
-                    <span>Montant pour l'offre: @offerToPay.Price€</span>
-                    <button class="oi oi-delete" @onclick="()=>RemoveOfferToPay(offerToPay)"></button>
-                </div>
+            }
+            <div class="pay-zone">
+                <div>Total à régler : @getTotalAmount() €</div>
+                <AuthorizeView>
+                    <Authorized>
+                        <button class="action-button" @onclick="PayCart">Paiement</button>
+                    </Authorized>
+                    <NotAuthorized>
+                        <span>Veuillez vous connecter pour procéder au paiement de l'offre</span> 
+                    </NotAuthorized>
+                </AuthorizeView>
             </div>
-        }
-        <div class="pay-zone">
-            <div>Total à régler : @getTotalAmount() €</div>
-            <AuthorizeView>
-                <Authorized>
-                    <button class="action-button" @onclick="PayCart">Paiement</button>
-                </Authorized>
-                <NotAuthorized>
-                    <span>Veuillez vous connecter pour procéder au paiement de l'offre</span> 
-                </NotAuthorized>
-            </AuthorizeView>
         </div>
-    </div>
+    }
 </div>
 
 @code {
