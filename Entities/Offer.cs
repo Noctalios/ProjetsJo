@@ -18,7 +18,7 @@
             State = state;
         }
 
-        protected decimal AmountOffer()
+        public decimal AmountOffer()
         {
             return Total * Price;
         }

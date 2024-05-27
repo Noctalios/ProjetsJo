@@ -7,8 +7,8 @@
 
 @page "/Administration"
 
-<h2>Page d'administration des offres de la billetterie</h2>
 <div class="offers">
+    <h2>Page d'administration des offres de la billetterie</h2>
     <div class="offer-edit">
         <div>
             <label>Intitulé de l'offre: </label>
@@ -45,7 +45,17 @@
             <div>
                 <label>Ventes: @offer.Total</label>
             </div>
-            <button @onclick="()=>Disable(offer.Id)">Désactivation</button>
+            <div>
+                <label>Gains: @offer.AmountOffer()€</label>
+            </div>
+            @if (offer.State)
+            {
+                <button @onclick="()=>Disable(offer.Id)">Désactivation</button>
+            }
+            else
+            {
+                <span>Désactivée</span>
+            }
         </div>
     }
 </div>
