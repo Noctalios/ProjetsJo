@@ -65,12 +65,19 @@
     private Offer newOffer = new Offer();
     private Dictionary<int, bool> offerNameUnicity = new();
 
+    /// <summary>
+    /// This method get the data when the component is mounted
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
         GetOffers();
     }
 
+    /// <summary>
+    ///  Get all the Offers from the database 
+    ///  and setup a Dictionary to verifyName unicity on Update
+    /// </summary>
     private void GetOffers()
     {
         Offers = offerService.GetOffers();
@@ -79,6 +86,9 @@
         resetNewOffer();
     }
 
+    /// <summary>
+    /// This method permits to reset the new offer 
+    /// </summary>
     private void resetNewOffer()
     {
         newOffer.Id = 0;
@@ -88,14 +98,10 @@
         newOffer.Total = 0;
     }
 
-    private void Save(string newName, Offer offerToUpdate)
-    {
-        if (Offers.Count(o => o.Name == newName) <= 1)
-            offerService.UpdateOffer(offerToUpdate);
-        else
-            offerNameUnicity[offerToUpdate.Id] = true;
-    }
-
+    /// <summary>
+    /// Verify elements of new offer.
+    ///  Then requests the adding of the element to offerService.
+    /// </summary>
     private void Add()
     {
         string warningMessage = "Ajout impossible:<br>";
@@ -135,11 +141,33 @@
         }
     }
 
+    /// <summary>
+    /// This method permits to verify the unicity on changing Name.
+    ///  Then asks the save of the offer to offerService.
+    /// </summary>
+    /// <param name="newName">Name written in the input.</param>
+    /// <param name="offerToUpdate">offer target by the name change.</param>
+    private void Save(string newName, Offer offerToUpdate)
+    {
+        if (Offers.Count(o => o.Name == newName) <= 1)
+            offerService.UpdateOffer(offerToUpdate);
+        else
+            offerNameUnicity[offerToUpdate.Id] = true;
+    }
+
+    /// <summary>
+    /// This method requests the save of the offer when the modification concerns an other property than Name.
+    /// </summary>
+    /// <param name="offerToUpdate">Offer that has to be update.</param>
     private void Save(Offer offerToUpdate)
     {
         offerService.UpdateOffer(offerToUpdate);
     }
 
+    /// <summary>
+    /// This method asks the service to disable the offer.
+    /// </summary>
+    /// <param name="offerId">Id of the offer to disable.</param>
     private void Disable(int offerId)
     {
         offerService.DisableOffer(offerId);
