@@ -92,15 +92,24 @@
     private bool editingUser = true;
     private bool viewPassword = false;
 
+    /// <summary>
+    /// This method is necessary to initialize the component.
+    /// </summary>
     protected override void OnInitialized()
     {
     }
 
+    /// <summary>
+    /// Permits to switch between input type password or text
+    /// </summary>
     private void SwitchViewPassword()
     {
         viewPassword = !viewPassword;
     }
 
+    /// <summary>
+    /// Permits to select if the user want to connect or create a new account.
+    /// </summary>
     private void SwitchEditingUser()
     {
         editingUser = !editingUser;
@@ -108,6 +117,13 @@
 
     #region Connect
 
+    /// <summary>
+    /// This method checks that the parameters are not null before making a request to log in the user.
+    /// </summary>
+    /// <param name="firstName">FirstName of the User.</param>
+    /// <param name="lastName">Lastname of the new user.</param>
+    /// <param name="password">Password to log in.</param>
+    /// <returns></returns>
     private async Task OnLogin(string firstName, string lastName, string password)
     {
         string warningMessage = "Connexion impossible:<br>";
@@ -170,7 +186,15 @@
     #endregion
 
     #region Edit
-
+    /// <summary>
+    /// This method provide firstName, lastName, email and password.
+    /// Then Verify if these elements respect business rule.
+    /// Finally send a request to create a new User.
+    /// </summary>
+    /// <param name="firstName">Firstname of the new user.</param>
+    /// <param name="lastName">Lastname of the new user.</param>
+    /// <param name="email">Email of the new user.</param>
+    /// <param name="password">Password to log in to the new account.</param>
     private void OnCreate(string firstName, string lastName, string email, string password)
     {
         string warningMessage = "Création impossible:<br>";
