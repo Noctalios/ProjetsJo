@@ -15,11 +15,21 @@ namespace ProjetsJo.DAL.Repository
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Provide the connection string from the Configuration.
+        /// </summary>
+        /// <returns>Return the value of DefaultConnection in appsettings.json.</returns>
         private string GetConnexionString()
         {
             return _configuration.GetConnectionString("DefaultConnection");
         }
 
+        /// <summary>
+        /// Request the Database to execute the stored procedure GetUsertTickets 
+        /// to retrieve all tickets of an User according his accountKey.
+        /// </summary>
+        /// <param name="accountKey">Account key of the user whose tickets must be retrieved.</param>
+        /// <returns>Returns the list of tickets for the user who owns this account key.</returns>
         public List<Ticket> GetUserTickets(Guid accountKey)
         {
             string sql = "EXEC [GetUserTickets] @accountKey";
@@ -46,6 +56,12 @@ namespace ProjetsJo.DAL.Repository
             return tickets;
         }
 
+        /// <summary>
+        /// Request the Databasse to execute the Stored procedure CreateTicketsForUser. 
+        /// The parameter of the procedure is a table containing all the new tickets.
+        /// </summary>
+        /// <param name="accountKey">Account key of the user who purchased the tickets.</param>
+        /// <param name="tickets">List of tickets to save.</param>
         public void SaveTicketsForUser(Guid accountKey, Dictionary<Ticket, int> tickets)
         {
             string sql = "EXEC [CreateTicketsForUser] @Tickets";
@@ -65,7 +81,12 @@ namespace ProjetsJo.DAL.Repository
         }
 
         #region DataTable
-
+        /// <summary>
+        /// This methods permits to create the table parameter for the stored procedure CreateTicketForUser.
+        /// </summary>
+        /// <param name="tickets">List of tickets to insert in the table parameter.</param>
+        /// <param name="accountKey">Account key needed to get the column referenced by the foreign key.</param>
+        /// <returns>Return a DataTable parameter.</returns>
         private DataTable CreateTicketsDataTable(Dictionary<Ticket, int> tickets, Guid accountKey)
         {
             DataTable ticketTable = new DataTable();
