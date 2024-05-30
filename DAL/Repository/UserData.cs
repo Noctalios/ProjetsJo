@@ -16,11 +16,22 @@ namespace ProjetsJo.DAL.Repository
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Provide the connection string from the Configuration.
+        /// </summary>
+        /// <returns>Return the value of DefaultConnection in appsettings.json.</returns>
         private string GetConnexionString()
         {
             return _configuration.GetConnectionString("DefaultConnection");
         }
 
+        /// <summary>
+        /// This method contains the password hashing algorithm.
+        /// </summary>
+        /// <param name="password">Password to hash</param>
+        /// <param name="firstName">FirstName of the User</param>
+        /// <param name="lastName">LastName of the User</param>
+        /// <returns>Return the HashPassword.</returns>
         private string HashPassword(string password, string firstName, string lastName)
         {
             SHA256 hash = SHA256.Create();
@@ -31,6 +42,15 @@ namespace ProjetsJo.DAL.Repository
 
         #region Create
 
+        /// <summary>
+        /// Request the Database to execute the stored procedure CreateUser.
+        /// The firs name, last name, email, accountKey and an hashed password are required.
+        /// </summary>
+        /// <param name="firstName">First name of the new User.</param>
+        /// <param name="lastName">Last name of the new User.</param>
+        /// <param name="email">Address email of the new User.</param>
+        /// <param name="accountKey">AccountKey to register for the new User.</param>
+        /// <param name="password">Hash Password to authenticate.</param>
         public void CreateUser(string firstName, string lastName, string email, Guid accountKey, string password)
         {
             string sql = "EXEC [CreateUser] @firstname, @lastName, @email, @accountKey, @password";
@@ -51,9 +71,16 @@ namespace ProjetsJo.DAL.Repository
         }
 
         #endregion
-        
-        #region Read
 
+        #region Read
+        /// <summary>
+        /// Request the Database to excute the stored procedure GetUser 
+        /// according first name, last name and a hashed password.
+        /// </summary>
+        /// <param name="firstName">First name of the User.</param>
+        /// <param name="lastName">Last name of the User.</param>
+        /// <param name="password">Password that must be hashed to connect.</param>
+        /// <returns>If the authentication is successfull return User else return null.</returns>
         public User? GetUser(string firstName, string lastName, string password)
         {
             try
