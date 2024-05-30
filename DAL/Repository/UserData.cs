@@ -1,6 +1,5 @@
 ﻿using ProjetsJo.DAL.Interfaces;
 using ProjetsJo.Entities;
-using ProjetsJo.Entities;
 using Microsoft.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
