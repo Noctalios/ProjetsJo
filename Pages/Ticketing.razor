@@ -93,6 +93,9 @@
     private User connectedUser { get; set; } = new();
     private bool spinner = false;
 
+    /// <summary>
+    /// Initialilize the offers and get user connected infos.
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -111,6 +114,10 @@
         };
     }
 
+    /// <summary>
+    /// This method adds the offer to the cart and if it is already present increments it instead.
+    /// </summary>
+    /// <param name="offerToAdd">Offer that must be added to the cart.</param>
     private void AddOfferToCart(Offer offerToAdd)
     {
         if (Cart.ContainsKey(offerToAdd))
@@ -119,11 +126,20 @@
             Cart.Add(offerToAdd, 1);
     }
 
+    /// <summary>
+    /// This method remove the offer of the cart.
+    /// </summary>
+    /// <param name="offerToRemove">Offer that must be removed from the cart</param>
     private void RemoveOfferToPay(Offer offerToRemove)
     {
         Cart.Remove(offerToRemove);
     }
 
+    /// <summary>
+    /// This method decrease the quantity of an offer of the Cart.
+    /// If this offer quantity reach 0, the offer is removed.
+    /// </summary>
+    /// <param name="offerToDecrease">Offer that must be decreased</param>
     private void DecreaseCart(Offer offerToDecrease)
     {
         Cart[offerToDecrease]--;
@@ -131,6 +147,11 @@
             RemoveOfferToPay(offerToDecrease);
     }
 
+    /// <summary>
+    /// This method permit to choose the quantity of an offer.
+    /// </summary>
+    /// <param name="e">Event arg that contains the new quantity</param>
+    /// <param name="offerToModify">Offer whose quantity must be modified.</param>
     private void ModifyQuantity(ChangeEventArgs e, Offer offerToModify)
     {
         if(e.Value != null)
@@ -138,7 +159,10 @@
                 Cart[offerToModify] = result;
     }
 
-
+    /// <summary>
+    /// This method calculates the total amount of the cart.
+    /// </summary>
+    /// <returns>Returns the total amount to pay to purchase tickets.</returns>
     private decimal getTotalAmount()
     {
         decimal amount = 0m;
@@ -146,6 +170,11 @@
         return amount;
     }
 
+    /// <summary>
+    /// This method mocks the payment of tickets to a payment API.
+    /// Then this method request the server to create the tickets.
+    /// Then Get all the tickets of the User.
+    /// </summary>
     private async void PayCart()
     {
         int number = 0;
@@ -157,6 +186,9 @@
         ActualiseUserTickets();
     }
 
+    /// <summary>
+    /// Request the server to get tickets of the current User.
+    /// </summary>
     private void ActualiseUserTickets()
     {
         connectedUser.Tickets = _ticketService.GetUserTickets(connectedUser.AccountKey).Result;
