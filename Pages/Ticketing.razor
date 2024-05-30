@@ -71,6 +71,10 @@
                 <AuthorizeView>
                     <Authorized>
                         <button class="action-button" @onclick="PayCart">Paiement</button>
+                        @if(spinner)
+                        {
+                            <span class="oi oi-clock"></span>
+                        }
                     </Authorized>
                     <NotAuthorized>
                         <span>Veuillez vous connecter pour procéder au paiement de l'offre</span> 
@@ -87,6 +91,7 @@
     private List<Offer> Offers = new();
     private Dictionary<Offer, int> Cart = new();
     private User connectedUser { get; set; } = new();
+    private bool spinner = false;
 
     protected override void OnInitialized()
     {
@@ -145,7 +150,9 @@
     {
         int number = 0;
         Cart.Keys.ToList().ForEach(o => number += o.TicketNumber * Cart[o]);
+        spinner = true;
         await _ticketService.MockPaymentApi();
+        spinner = false;
         _ticketService.CreateTickets(connectedUser.AccountKey, Cart);
         ActualiseUserTickets();
     }
