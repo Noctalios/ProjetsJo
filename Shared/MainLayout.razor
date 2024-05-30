@@ -64,22 +64,37 @@
     static public bool isPageTicketing = false;
     private string? displayMenu => collapseNavMenu ? "collapse" : null;
 
+    /// <summary>
+    /// This method switch the state of the NavMenu.
+    /// </summary>
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
 
+    /// <summary>
+    /// This method redirect the User to Ticketing page.
+    /// </summary>
     private void GoToTicketing()
     {
         switchBoolean(true);
         navManager.NavigateTo("/Ticketing", false);
     }
 
+    /// <summary>
+    /// This method catch the eventCallback of NavMenu component 
+    ///  and indicates to MainLayout if the current page is Ticketing.
+    /// </summary>
+    /// <param name="moovePage"></param>
     private void switchBoolean(bool moovePage)
     {
         isPageTicketing = moovePage;
     }
 
+    /// <summary>
+    /// This method open the pop-up Connexion.
+    /// Then indicates if the connexion correctly occured.
+    /// </summary>
     private async Task Connexion()
     {
         var options = new DialogOptions
@@ -105,6 +120,11 @@
         }
     }
 
+    /// <summary>
+    /// This method log out the user.
+    /// On log out the user is redirected to the HomePage.
+    /// </summary>
+    /// <returns></returns>
     private async Task LogOut()
     {
         var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
@@ -113,6 +133,11 @@
         navManager.NavigateTo("/", true);
     }
 
+    /// <summary>
+    /// This methods permits to retrieve the FirstName and the LastName of current user.
+    /// </summary>
+    /// <param name="user">Authenticate user ClaimsPrincipal.</param>
+    /// <returns>Return the label of the deconnexion button.</returns>
     private string GetDisplayName(ClaimsPrincipal user)
     {
         string displayName = $"{ user.Claims.First(c => c.Type == ClaimTypes.Name).Value}  { user.Claims.First(c => c.Type == ClaimTypes.Surname).Value}";
