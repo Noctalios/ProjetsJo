@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DatabaseProjetsJo\**" />
+    <Content Remove="DatabaseProjetsJo\**" />
+    <EmbeddedResource Remove="DatabaseProjetsJo\**" />
+    <None Remove="DatabaseProjetsJo\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Pages\Ticketing.razor.css" />
     <None Remove="Pages\Ticketing.razor~RF1c5b1e98.TMP" />
     <None Remove="Shared\HomeDisplayInfo.razor.css" />
