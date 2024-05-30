@@ -29,11 +29,21 @@
     [Parameter]
     public EventCallback<bool> OnGoTicketing { get; set; }
 
+    /// <summary>
+    /// This method creates a callback event which allows you to close 
+    /// the navigation menu when you click on a redirection link.
+    /// </summary>
+    /// <returns></returns>
     protected async Task CollapseMenu()
     {
         await OnClickCallback.InvokeAsync();
     }
 
+    /// <summary>
+    /// This method creates a callback to indicate that a redirection has taken place to Ticketing.
+    /// </summary>
+    /// <param name="isGoing">Indicates if the target page is Ticketing.</param>
+    /// <returns></returns>
     private async Task ToTicketing(bool isGoing)
     {
         await OnGoTicketing.InvokeAsync(isGoing);
