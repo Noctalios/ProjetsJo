@@ -53,24 +53,22 @@ namespace ProjetsJo.BLL.Services
         /// <param name="accountKey">Account key of the user who purchased the tickets.</param>
         /// <param name="cart">Dictionary with all the Offers (keys) and the quantity bought by Offers (value).</param>
         /// <returns>Returns a dictionary of all the tickets with the offers from which they come.</returns>
-        private Dictionary<Ticket, int> GenerateQrCode(Guid accountKey, Dictionary<Offer, int> cart) 
+        public Dictionary<Ticket, int> GenerateQrCode(Guid accountKey, Dictionary<Offer, int> cart) 
         {
             Dictionary<Ticket, int > tickets =  new();
             DateTime dateTime = DateTime.Now;
-            int i = 0;
             using QRCodeGenerator qrGenerator = new();
             foreach (Offer offer in cart.Keys.ToList()) 
             {
-                for (int j = 0; j <offer.TicketNumber; j++) 
+                for (int j = 0; j < offer.TicketNumber * cart[offer]; j++) 
                 {
                     DateTime dateTicket= dateTime.AddMilliseconds(j);
 
                     using QRCodeData qrCodeData = qrGenerator.CreateQrCode($"Le billet est celui de {accountKey} et date du {dateTicket:0:MM/dd/yyy HH:mm:ss.fff}", QRCodeGenerator.ECCLevel.Q);
                     Base64QRCode qrCode = new (qrCodeData);
                     string qrCodeImageAsBase64 = qrCode.GetGraphic(20);
-                    Ticket ticket = new (0, qrCodeImageAsBase64, dateTicket);
+                    Ticket ticket = new (tickets.Keys.ToList().Count, qrCodeImageAsBase64, dateTicket);
                     tickets.Add(ticket, offer.Id);
-                    i++;
                 }
             }
             return tickets;
